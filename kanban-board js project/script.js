@@ -48,7 +48,6 @@ let done=document.querySelector("#done")
 let taksdrop=null
 let task=document.querySelectorAll(".box")
 let tasku=document.querySelector(".task")
-// let deleter=document.querySelector(".delete")
 
 
 task.forEach((e)=>{
@@ -195,19 +194,6 @@ document.querySelector("input").value=""
 document.querySelector("textarea").value=""
 })
 
-// deleter.addEventListener("click",()=>{
-//     console.log("click");
-
-//     e.classList.add("unactive")
-// })
-// document.addEventListener("click", (e) => {
-//     if (e.target.classList.contains("delete")) {
-//        let and= e.target.closest(".box");
-//        if(and){
-//         and.classList.add("unactive")
-//        }
-//     }
-// });
 
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("delete")) {
