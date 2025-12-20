@@ -53,9 +53,6 @@ let tasku=document.querySelector(".task")
 task.forEach((e)=>{
     e.addEventListener("dragstart",()=>{
         taksdrop=e
-        // e.prev
-        // e.preventDefault()
-        // entDefault()
     })
     
 })
