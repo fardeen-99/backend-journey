@@ -53,6 +53,7 @@ let tasku=document.querySelector(".task")
 task.forEach((e)=>{
     e.addEventListener("dragstart",()=>{
         taksdrop=e
+        
     })
     
 })
@@ -66,7 +67,6 @@ e.preventDefault()
 col.classList.add("hover")
 })
 col.addEventListener("dragleave",(e)=>{
-// e.preventDefault()
 col.classList.remove("hover")
 })
 col.addEventListener("dragover",(e)=>{
