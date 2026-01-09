@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root{
+    --pri: #F8F4E1;
+    --sec: #391a05;
+    --tri1: #FEBA17;
+    --tri2: #74512D;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+}
+/* body{
+    position: relative;
+} */
+.allelem{
+height: 270px;
+width: 238px;
+background-color: #FEBA17;
+border-radius: 20px;
+position: relative;
+
+}
+.allelem>img{
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: cover;
+}
+.allelem p{
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-weight: 400;
+    color: white;
+}
+.fullelem {
+  position: fixed;   /* 🔥 CHANGE THIS */
+  inset: 0;          /* top:0 right:0 bottom:0 left:0 */
+  width: 100%;
+  height: 100vh;
+  background-color: var(--sec);
+  display: none;
+  z-index: 50;       /* Tailwind-friendly */
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanta Full Background</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: system-ui, sans-serif;
+    }
+
+    #vanta-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .alien {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 700;
+      color: #6b4040;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND -->
+  <div id="vanta-bg"></div>
+
+  <!-- CONTENT -->
+  <div class="alien">hello</div>
+  <div class="alien">hello</div>
+  <div class="alien">hello</div>
+
+  <!-- SCRIPTS (CORRECT ORDER) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"></script>
+
+  <script>
+    VANTA.FOG({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      highlightColor: 0xffc300,
+      midtoneColor:0xff1f00,
+      lowlightColor:0x2d00ff,
+      backgroundColor: 0xffebeb
+    });
+  </script>
+
+</body>
+</html>

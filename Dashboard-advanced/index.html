@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body >
+    <div class=" m-h-screen w-[100%] p-7  flex flex-col gap-7" style="background-color: var(--sec)">
+    
+        <div  class=" w-[100%] flex justify-between p-5 rounded-xl " style="background-color: var(--pri);">
+<p class="font-bold capitalize text-3xl"> productivity Dashboard</p>
+<button class="border-0 px-4 py-2 rounded-lg font-medium capitalize   " style="background-color: var(--sec); color: var(--pri);">change theme</button>
+        </div>
+     <div class="w-[100%] flex justify-between p-8 bg-gray-500 rounded-xl bg-[url('https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHdlYXRoZXIlMjBhcHB8ZW58MHx8MHx8fDA%3D')] bg-center bg-cover relative ">
+
+
+    <div class="flex text-white capitalize flex-col gap-4">
+        <p id="date" class="text-white  capitalize text-2xl"></p>
+<p id="time" class="capitalize text-white text-5xl font-bold">friday</p>
+<form class="mt-2">
+    
+    <input type="text" id="location" placeholder="Enter your location" class="border-0 outline-0 capitalize font-semibold text-lg bg-[#ffffff48] px-3 py-1 self-start  " >
+</form>
+<p id="city" class="text-2xl  font-medium uppercase">_ _ _</p>
+    </div>
+
+    <div class="flex flex-col  space text-white capitalize items-center">
+        
+        <h1 id="celcius" class="text-[3.3rem] font-bold self-start" >_ _</h1>
+        
+        <h2 id="clear" class="text-2xl font-bold ">_ _ _ _ _</h2>
+        <!-- <div id="icon" class=" "></div> -->
+
+       
+        <div class="font-medium flex  mt-4 flex-col ">
+            <p id="perception">perception:_ _</p>
+            <p id="humidity">humidity:_ _</p>
+            <p id="wind">wind:_ _</p>
+        </div>
+    </div>
+
+
+     </div>
+
+
+
+<div class="flex w-[100%]  flex-wrap gap-6 ">
+<div class="allelem todo" id="0">
+    <img src="https://images.unsplash.com/photo-1648457257285-cfbc3781cc54?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+<p>todo list</p>
+</div>
+<div class="allelem daily"  id="1">
+    <img src="https://images.unsplash.com/photo-1678986718987-76f0b9357e0f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <p>daily palanner</p>
+</div>
+<div class="allelem motivational" id="2">
+    <img src="https://images.unsplash.com/photo-1648457147590-ef7dbec3cfc2?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <p>motivational</p>
+</div>
+<div class="allelem pomodoro" id="3">
+    <img src="https://images.unsplash.com/photo-1714911463647-c3150ce15ad1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="" alt="">
+    <p>pomodoro timer</p>
+</div>
+<div class="allelem kanban" id="4">
+    <img src="https://images.unsplash.com/photo-1648461409140-8435a67cf24f?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+    <p>kanban board</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+    <section class="fullelem min-h-screen">
+        <div class="flex justify-between w-100% p-4">
+            <p>your personalised task list</p>
+    <button id="0" class="px-10 py-3 rounded-lg font-medium text-white text-xl" style="background-color: var(--tri2);" >close</button>
+</div>
+
+</section>
+<section class="fullelem">
+    <div class="flex justify-between w-100% p-4 page">
+    <p>your personalised daily palanner list</p>
+    <button id="1" class="px-10 py-3 rounded-lg font-medium text-white text-xl" style="background-color: var(--tri2);" >close</button>
+</div>
+</section>
+<section class="fullelem">
+    <div class="flex justify-between w-100% p-4 page">
+    <p>your personalised motivational list</p>
+    <button id="2" class="px-10 py-3 rounded-lg font-medium text-white text-xl" style="background-color: var(--tri2);" >close</button>
+</div>
+</section>
+<section class="fullelem">
+    <div class="flex justify-between w-100% p-4 page">
+    <p>your personalised pomodoro</p>
+    <button id="3" class="px-10 py-3 rounded-lg font-medium text-white text-xl" style="background-color: var(--tri2);" >close</button>
+</div>
+</section>
+<section class="fullelem">
+    <div class="flex justify-between w-100% p-4 page">
+    <p>your personalised kanban list</p>
+    <button id="4" class="px-10 py-3 rounded-lg font-medium text-white text-xl" style="background-color: var(--tri2);" >close</button>
+</div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
