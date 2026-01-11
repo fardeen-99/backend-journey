@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body >
-    <div class=" m-h-screen w-[100%] p-7  flex flex-col gap-7" style="background-color: var(--sec)">
+    <div class=" m-h-[100vh] flex-1 w-[100%] p-7  flex flex-col gap-7" style="background-color: var(--sec)">
     
         <div  class=" w-[100%] flex justify-between p-5 rounded-xl " style="background-color: var(--pri);">
 <p class="font-bold capitalize text-3xl"> productivity Dashboard</p>
@@ -142,16 +142,109 @@
 </main>
 
 </section>
-<section class="fullelem">
+
+<!-- pomodoro timer -->
+
+<section class="fullelem pomo"  style="color: var(--pri);">
     <div class="flex justify-between w-100% p-4 page">
-    <p>your personalised pomodoro</p>
+    <p class="text-4xl font-semibold">Study with me!</p>
     <button id="3" class="px-10 py-3 rounded-lg font-medium text-white text-xl close-btn" style="background-color: var(--tri2); " >close</button>
 </div>
+
+<div  class="w-[100%] min-h-[60%] flex flex-col justify-center items-center gap-9">
+<div class="p-[15px] px-7 rounded-xl font-semibold text-xl" style="background-color: var(--tri1);">
+work session
+</div>
+<audio src="faaa.mp3"></audio>
+<div class="flex flex-col gap-4 items-center ">
+<h1 class="text-9xl font-semibold" id="timer">
+    
+</h1>
+<div class="flex gap-5">
+    <div class="font-semibold py-3 px-7 rounded-md text-2xl transition-transform duration-200 active:scale-95" style="background-color: var(--tri2);box-shadow: 5px 7px 10px black;" id="start" >start</div>
+    <div class="font-semibold py-3 px-7 rounded-md text-2xl transition-transform duration-200 active:scale-95" style="background-color: var(--tri2);box-shadow: 5px 7px 10px black;" id="pause">pause</div>
+    <div class="font-semibold py-3 px-7 rounded-md text-2xl transition-transform duration-200 active:scale-95" style="background-color: var(--tri2);box-shadow: 5px 7px 10px black;" id="reset">reset</div>
+</div>
+</div>
+
+</div>
+
+
 </section>
-<section class="fullelem">
-    <div class="flex justify-between w-100% p-4 page">
-    <p>your personalised kanban list</p>
-    <button id="4" class="px-10 py-3 rounded-lg font-medium text-white text-xl close-btn" style="background-color: var(--tri2); " >close</button>
+
+
+
+<section class="fullelem kanban p-4" style="color: var(--pri); " >
+    <div class="flex justify-between w-100% p-4 page rounded-lg items-center" style="background-color: var(--tri2);">
+    <p class="text-3xl font-semibold">your personalised kanban</p>
+    <div class="flex gap-4">
+        <div class="px-10 py-3 rounded-lg font-medium text-white text-xl close-btn" style="background-color: var(--sec); " id="add-task">Add-task</div>
+        <button id="4" class="px-10 py-3 rounded-lg font-medium text-white text-xl close-btn" style="background-color: var(--sec); " >close</button>
+
+    </div>
+    
+</div>
+<section class=" min-h-[80vh] w-[100%] grid grid-cols-3 gap-3 mt-3 ">
+
+<div id="task"  class=" rounded-xl p-4 font-semibold text-xl" style="background-color: var(--tri2); color: var(--pri);" >
+<div class="flex justify-between" style="color: var(--pri);">
+<p >task</p>
+<p class="count" >0</p>
+</div>
+
+
+<!-- <div class="flex flex-col gap-1 p-5 rounded-xl text-lg mt-4 draggable" id="drag-task" draggable="true" style="background-color: var(--sec); color: var(--pri);">
+    <h1 class="text-xl">fardeen</h1>
+    <h5 class=" font-medium">web developer</h5>
+    <div class="flex gap-4 self-end "   >
+        <button class="h-10 px-4 capitalize rounded-lg border-0  bg-gray-700" >edit</button>
+        <button class=" h-10 px-4 rounded-lg capitalize border-0 bg-red-600" >delete</button>
+    </div>
+</div> -->
+
+
+
+</div>
+<div id="progress"  class="h-[100%] rounded-xl p-4 font-semibold text-xl" style="background-color: var(--tri2); color: var(--pri);" >
+
+<div  class="flex justify-between" style="color: var(--pri);">
+<p >progress</p>
+<p class="count" >0</p>
+</div>
+
+</div>
+<div id="done" class="h-[100%] rounded-xl p-4 font-semibold text-xl" style="background-color: var(--tri2); color: var(--pri);" >
+
+<div class="flex justify-between" style="color: var(--pri);">
+<p>done</p>
+<p class="count" >0</p>
+</div>
+
+</div>
+
+</section>
+
+
+
+
+
+
+
+</section>
+<section id="bg-blur" class="hidden">
+
+    <div  class="fixed inset-0 min-h-[100vh] w-[100%] backdrop-blur-xl z-60"></div>
+    
+    <div class="fixed inset-0 min-h-[100vh] w-[100%]  z-70 flex justify-center items-center">
+        
+<button id="btn-close" class="fixed top-5 right-5 px-8 py-3  text-white font-semibold  rounded-xl bg-sec" >close</button>
+
+    <div class="lg:w-[40%]  w-[80%] p-5 flex flex-col gap-4 rounded-xl" style="box-shadow: 0 0 38px var(--sec); background-color: var(--sec);">
+<input id="blur-input" type="text" placeholder="task" class="rounded-xl  p-4 border-0 outline-0 text-white text-xl font-semibold " style="background-color: var(--tri2);">
+<textarea  name="" id="blur-textarea" cols="30" rows="4" placeholder="task-description " class="p-4 border-0 outline-0 text-white text-xl font-semibold  bg-[#2a2a2a] rounded-xl" style="background-color: var(--tri2);"></textarea>
+<button id="btn-add" class="py-3 rounded-xl px-6 font-semibold text-white uppercase  active:scale-95" style="background-color: var(--tri1);">add-task</button>
+</div>
+
 </div>
 </section>
 

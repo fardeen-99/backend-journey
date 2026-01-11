@@ -9,6 +9,30 @@
     --tri1: #FEBA17;
     --tri2: #74512D;
 }
+
+
+@layer utilities {
+  /* Background */
+  .bg-pri { background-color: var(--pri); }
+  .bg-sec { background-color: var(--sec); }
+  .bg-tri1 { background-color: var(--tri1); }
+  .bg-tri2 { background-color: var(--tri2); }
+  .bg-danger { background-color: var(--danger); }
+
+  /* Text */
+  .text-pri { color: var(--pri); }
+  .text-sec { color: var(--sec); }
+  .text-tri1 { color: var(--tri1); }
+  .text-tri2 { color: var(--tri2); }
+  .text-danger { color: var(--danger); }
+
+  /* Border */
+  .border-pri { border-color: var(--pri); }
+  .border-sec { border-color: var(--sec); }
+  .border-tri1 { border-color: var(--tri1); }
+  .border-danger { border-color: var(--danger); }
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -31,9 +55,10 @@ html,body{
     font-family: sans-serif;
     text-transform: capitalize;
 }
-/* body{
-    position: relative;
-} */
+body{
+    display: flex;
+    flex-direction: column;
+}
 .allelem{
 height: 270px;
 width: 238px;
@@ -59,7 +84,7 @@ position: relative;
 }
 .fullelem {
   position: fixed;   /* 🔥 CHANGE THIS */
-  inset: 0;          /* top:0 right:0 bottom:0 left:0 */
+  top: 0;          /* top:0 right:0 bottom:0 left:0 */
   width: 100%;
   min-height: 100vh;
   background-color: var(--sec);
@@ -92,6 +117,12 @@ position: relative;
     font-weight: 700;
     border-radius: .6rem;
 }
-.motivational{
-    display: block;
+
+
+.enteradd{
+    border: 4px dashed wheat;
+}
+.color1{
+    background-color: orangered !important;
+    
 }

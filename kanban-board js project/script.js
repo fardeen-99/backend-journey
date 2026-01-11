@@ -16,8 +16,7 @@ for(const col in data){
 if(task.color){
     div.classList.add(task.color)
 }
-
-        div.innerHTML=`<h2 id="task1">${task.title}</h2>
+div.innerHTML=`<h2 id="task1">${task.title}</h2>
     <p id="task2">${task.desc}</p>
                         <div class="btn">
                         <button class="edit">edit</button>
@@ -57,6 +56,8 @@ task.forEach((e)=>{
     })
     
 })
+
+
 // console.log(todo,pro,done);
 
 console.log(taksdrop)

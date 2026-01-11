@@ -98,6 +98,7 @@ all.forEach((e)=>{
 e.addEventListener("click",()=>{
   page[e.id].style.display="block"
   
+  
 })  
   
 })
@@ -246,3 +247,305 @@ async function fetcher(){
 fetcher()
 }
 motivationalQuote()
+
+
+let timer=document.querySelector("#timer")
+let start=document.querySelector("#start")
+let pause=document.querySelector("#pause")
+let restart=document.querySelector("#reset")
+
+
+
+
+// localStorage.clear()
+
+
+function sessionTimer(){
+  let TotalTime=25*60
+let timeleft=TotalTime
+let watch=null
+let isrunning=false
+
+if(localStorage.getItem("timesave")){
+
+  timeleft=JSON.parse(localStorage.getItem("timesave"))
+
+  timeleft > 0 ? timeleft:0
+
+}
+
+function calculate(){
+  let minute=Math.floor(timeleft/60)
+let sec=timeleft%60
+
+timer.innerHTML=`${minute}:${sec < 10 ? 0: ""}${sec}`
+
+}
+
+calculate()
+let audio=document.querySelector("audio")
+
+
+
+start.addEventListener("click",()=>{
+
+if(isrunning) return
+
+isrunning=true
+
+watch=setInterval(() => {
+  if(timeleft>0){
+    timeleft--
+    localStorage.setItem("timesave",JSON.stringify(timeleft))
+    calculate()
+  }else{
+    clearInterval(watch)
+    isrunning=false
+    audio.play()
+  calculate()
+}
+}, 100);
+
+})
+
+pause.addEventListener("click",()=>{
+
+clearInterval(watch)  
+isrunning=false
+localStorage.setItem("timesave",JSON.stringify(timeleft))
+calculate()
+  
+})
+
+
+restart.addEventListener("click",()=>{
+
+clearInterval(watch)
+isrunning=false
+timeleft=TotalTime
+localStorage.setItem("timesave",JSON.stringify(timeleft))
+calculate()
+
+
+})
+}
+
+sessionTimer()
+
+
+let storage={}
+
+
+
+ let tasku= document.querySelector("#task")
+let progress=document.querySelector("#progress")
+ let donetask = document.querySelector("#done")
+let dragtask =document.querySelectorAll(".drag-task")
+
+
+let taskmover=null
+
+dragtask.forEach((e)=>{
+e.addEventListener("dragstart",()=>{
+  console.log(e);
+  
+taskmover=e
+
+})
+
+
+})
+
+
+
+
+
+function chalao(col){
+
+col.addEventListener("dragenter",(e)=>{
+
+col.classList.add("enteradd")
+
+})
+
+col.addEventListener("dragleave",()=>{
+  col.classList.remove("enteradd")
+  
+})
+
+col.addEventListener("dragover",(e)=>{
+  
+  e.preventDefault()
+  
+})
+
+col.addEventListener("drop", (e) => {
+  e.preventDefault()
+  col.append(taskmover)
+  col.classList.remove("enteradd")
+
+  // reset colors
+  taskmover.classList.remove(
+    "bg-sec",
+    "bg-green-700",
+    "color1",
+    "rounded-xl"
+  )
+
+  // apply based on column
+  if (col === tasku) {
+    taskmover.classList.add("bg-sec", "rounded-xl")
+  } 
+  else if (col === progress) {
+    taskmover.classList.add("color1", "rounded-xl")
+  } 
+  else if (col === donetask) {
+    taskmover.classList.add("bg-green-700", "rounded-xl")
+  }
+
+  count()
+})
+col.addEventListener("drop", (e) => {
+  e.preventDefault()
+  col.append(taskmover)
+  col.classList.remove("enteradd")
+
+  // reset colors
+  taskmover.classList.remove(
+    "bg-sec",
+    "bg-green-700",
+    "color1",
+    "rounded-xl"
+  )
+
+  // apply based on column
+  if (col === tasku) {
+    taskmover.classList.add("bg-sec", "rounded-xl")
+  } 
+  else if (col === progress) {
+    taskmover.classList.add("color1", "rounded-xl")
+  } 
+  else if (col === donetask) {
+    taskmover.classList.add("bg-green-900", "rounded-xl")
+  }
+
+  count()
+})
+
+
+}
+
+chalao(tasku)
+chalao(progress)
+chalao(donetask)
+
+
+function count(){
+  let container=[tasku,progress,done]
+
+container.forEach((col)=>{
+let count=col.querySelector(".count")
+let Alltask=col.querySelectorAll(".drag-task")
+
+storage[col.id]=Array.from(Alltask).forEach((evt)=>{
+
+title:evt.querySelector("h1")
+disc:evt.querySelector("h5")
+
+
+})
+
+count.innerHTML=Alltask.length
+
+
+})
+}
+
+let addbtn=document.querySelector("#btn-add")
+let closebtn=document.querySelector("#btn-close")
+let bgblur=document.querySelector("#bg-blur")
+let inp=document.querySelector("#blur-input")
+let textarea=document.querySelector("#blur-textarea")
+let edit=document.querySelector(".editor")
+let taskedit=null
+
+closebtn.addEventListener("click",()=>{
+bgblur.style.display="none"
+inp.value=""
+textarea.value=""
+taskedit=null
+
+})
+document.querySelector("#add-task").addEventListener("click",()=>{
+  addbtn.innerHTML= taskedit !== null?"edit-task":"add-task"
+  bgblur.style.display="block"
+  
+})
+
+
+addbtn.addEventListener("click",()=>{
+  
+if(inp.value==="" || textarea.value==="") return alert("enter all values")
+
+
+if(taskedit){
+
+  taskedit.querySelector("h1").innerHTML=inp.value
+  taskedit.querySelector("h5").innerHTML=textarea.value
+taskedit=null
+
+}else{
+
+  
+  
+let div=document.createElement("div")
+
+div.innerHTML=`<div class="flex flex-col gap-1 p-5 rounded-xl text-lg mt-4 draggable drag-task bg-sec "  draggable="true" ">
+    <h1 class="text-xl">${inp.value}</h1>
+    <h5 class=" font-medium">${textarea.value}</h5>
+    <div class="flex gap-4 self-end "   >
+    <button class="h-10 px-4 capitalize rounded-lg border-0  bg-gray-700 editor" >edit</button>
+    <button class=" h-10 px-4 rounded-lg capitalize border-0 bg-red-600 deleter" >delete</button>
+    </div>
+    </div>`
+    
+  document.body.addEventListener("dragstart", (e) => {
+  if (e.target.classList.contains("draggable")) {
+    taskmover = e.target
+  }
+})
+    
+    tasku.append(div)
+  }
+count()
+
+bgblur.style.display="none"
+inp.value=""
+textarea.value=""
+
+
+})
+
+count()
+document.body.addEventListener("click",(e)=>{
+if(e.target.classList.contains("deleter")){
+e.target.closest(".draggable").remove()
+
+}
+count()
+if(e.target.classList.contains("editor")){
+ taskedit= e.target.closest(".draggable")
+
+
+  inp.value=taskedit.querySelector("h1").innerHTML
+  textarea.value=taskedit.querySelector("h5").innerHTML
+
+bgblur.style.display="block"
+addbtn.innerHTML= taskedit !== null?"edit-task":"add-task"
+
+}
+
+})
+
+
+
