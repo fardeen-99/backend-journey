@@ -201,8 +201,8 @@ text=JSON.parse(localStorage.getItem("textsaver"))
 
   let view=""
   arru.forEach((ele,index)=>{
-view+=`<div class="w-[49%]   relative">
-<input type="text" value="${text[index] || ""}" placeholder="..." class="goal-input w-[100%] p-7 outline-0 rounded-xl font-semibold text-white " style="background-color: var(--sec);">
+view+=`<div class="lg:w-[49%]   relative">
+<input type="text" value="${text[index] || ""}" placeholder="..." class="goal-input w-[100%] p-7 py-8 outline-0 rounded-xl font-semibold text-white " style="background-color: var(--sec);">
 <p class="absolute top-2 left-4 font-semibold" style="color: var(--tri1);">${ele}</p>
 
 </div>`
@@ -301,10 +301,10 @@ watch=setInterval(() => {
   }else{
     clearInterval(watch)
     isrunning=false
-    audio.play()
+  
   calculate()
 }
-}, 100);
+}, 1000);
 
 })
 
@@ -321,6 +321,7 @@ calculate()
 restart.addEventListener("click",()=>{
 
 clearInterval(watch)
+  audio.play()
 isrunning=false
 timeleft=TotalTime
 localStorage.setItem("timesave",JSON.stringify(timeleft))
@@ -332,8 +333,57 @@ calculate()
 
 sessionTimer()
 
-
+function kanbanBoard(){
+  
 let storage={}
+
+  if(localStorage.getItem("kanbansaver")){
+
+    let datu=JSON.parse(localStorage.getItem("kanbansaver"))
+
+    for (const col in datu) {
+      
+   let coli= document.querySelector(`#${col}`)
+   datu[col].forEach((ele)=>{
+
+let counting=coli.querySelector(".count")
+let allkanbantask=coli.querySelectorAll(".drag-task")
+
+
+let wrap=document.createElement("div")
+
+wrap.innerHTML=`<div class="flex flex-col gap-1 p-5 rounded-xl text-lg mt-4 draggable drag-task "  draggable="true" ">
+    <h1 class="text-xl">${ele.title}</h1>
+    <h5 class=" font-medium">${ele.disc}</h5>
+    <div class="flex gap-4 self-end "   >
+    <button class="h-10 px-4 capitalize rounded-lg border-0  bg-gray-700 editor" >edit</button>
+    <button class=" h-10 px-4 rounded-lg capitalize border-0 bg-red-600 deleter" >delete</button>
+    </div>
+    </div>`
+
+   let inner= wrap.querySelector(".drag-task")
+
+if(ele.color){
+
+inner.classList.add(ele.color,"rounded-xl")
+
+}
+
+inner.addEventListener("dragstart",()=>{
+taskmover=inner
+
+})
+coli.append(wrap)
+
+counting.innerHTML=allkanbantask.length
+
+
+   })
+      
+      
+    }
+
+  }
 
 
 
@@ -400,32 +450,6 @@ col.addEventListener("drop", (e) => {
     taskmover.classList.add("color1", "rounded-xl")
   } 
   else if (col === donetask) {
-    taskmover.classList.add("bg-green-700", "rounded-xl")
-  }
-
-  count()
-})
-col.addEventListener("drop", (e) => {
-  e.preventDefault()
-  col.append(taskmover)
-  col.classList.remove("enteradd")
-
-  // reset colors
-  taskmover.classList.remove(
-    "bg-sec",
-    "bg-green-700",
-    "color1",
-    "rounded-xl"
-  )
-
-  // apply based on column
-  if (col === tasku) {
-    taskmover.classList.add("bg-sec", "rounded-xl")
-  } 
-  else if (col === progress) {
-    taskmover.classList.add("color1", "rounded-xl")
-  } 
-  else if (col === donetask) {
     taskmover.classList.add("bg-green-900", "rounded-xl")
   }
 
@@ -441,21 +465,23 @@ chalao(donetask)
 
 
 function count(){
-  let container=[tasku,progress,done]
+  let container=[tasku,progress,donetask]
 
 container.forEach((col)=>{
-let count=col.querySelector(".count")
+let counter=col.querySelector(".count")
 let Alltask=col.querySelectorAll(".drag-task")
 
-storage[col.id]=Array.from(Alltask).forEach((evt)=>{
+storage[col.id]=Array.from(Alltask).map((evt)=>({
 
-title:evt.querySelector("h1")
-disc:evt.querySelector("h5")
+title:evt.querySelector("h1").textContent,
+disc:evt.querySelector("h5").textContent,
+color:evt.classList.contains("bg-sec")?"bg-sec":evt.classList.contains("color1")?"color1":"bg-green-900"
 
 
-})
+}))
+localStorage.setItem("kanbansaver",JSON.stringify(storage))
 
-count.innerHTML=Alltask.length
+counter.innerHTML=Alltask.length
 
 
 })
@@ -476,7 +502,7 @@ textarea.value=""
 taskedit=null
 
 })
-document.querySelector("#add-task").addEventListener("click",()=>{
+document.querySelector(".add-task").addEventListener("click",()=>{
   addbtn.innerHTML= taskedit !== null?"edit-task":"add-task"
   bgblur.style.display="block"
   
@@ -546,6 +572,46 @@ addbtn.innerHTML= taskedit !== null?"edit-task":"add-task"
 }
 
 })
+
+}
+
+
+kanbanBoard()
+
+let themer=[
+  {
+    "--pri":" #FFECC0",
+    "--sec": "#000B58",
+    "--tri1": "#2B4F60",
+    "--tri2":" #799EFF",
+  },{
+"--pri": "#FCF5EE",
+    "--sec": "#5F8B4C",
+    "--tri1": "#FFBC4C",
+    "--tri2": "#A8DF8E"
+
+  },
+  {
+     "--pri": "#F8F4E1",
+    "--sec": "#391a05",
+    "--tri1": "#FEBA17",
+    "--tri2": "#74512D",
+  }
+]
+let indux=-1
+
+document.querySelector("#theme").addEventListener("click", () => {
+  if(indux<2){
+    indux++
+
+  }else{
+    indux=0
+  }
+  document.documentElement.style.setProperty("--pri", themer[indux]["--pri"]);
+  document.documentElement.style.setProperty("--sec", themer[indux]["--sec"]);
+  document.documentElement.style.setProperty("--tri1", themer[indux]["--tri1"]);
+  document.documentElement.style.setProperty("--tri2", themer[indux]["--tri2"]);
+});
 
 
 

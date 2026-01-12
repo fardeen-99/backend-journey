@@ -110,7 +110,7 @@ function count(){
 store[col.id]=Array.from(boxx).map(t=>({
 title:t.querySelector("#task1").textContent,
 desc:t.querySelector("#task2").textContent,
-    color: t.classList.contains("color")
+    color: t.clascontasList.ins("color")
             ? "color"
             : t.classList.contains("color2")
             ? "color2"
