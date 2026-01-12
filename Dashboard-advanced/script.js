@@ -201,7 +201,7 @@ text=JSON.parse(localStorage.getItem("textsaver"))
 
   let view=""
   arru.forEach((ele,index)=>{
-view+=`<div class="lg:w-[49%]   relative">
+view+=`<div class="lg:w-[49%] w-[100%]  relative">
 <input type="text" value="${text[index] || ""}" placeholder="..." class="goal-input w-[100%] p-7 py-8 outline-0 rounded-xl font-semibold text-white " style="background-color: var(--sec);">
 <p class="absolute top-2 left-4 font-semibold" style="color: var(--tri1);">${ele}</p>
 
