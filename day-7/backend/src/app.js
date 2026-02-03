@@ -13,10 +13,10 @@ const notemodel=require("./models/note.model")
 
 app.post("/api/notes",async(req,res)=>{
 
-const {title,description}=req.body
+const {title,description,photo}=req.body
 
 const note= await notemodel.create({
-    title,description
+    title,description,photo
 })
 
 res.status(201).json({

@@ -6,7 +6,8 @@ const App = () => {
 const[data,setdata]=useState([])
 const [form, setform] = useState({
   title:"",
-  description:""
+  description:"",
+  photo:""
 })
 const [edit, setedit] = useState({})
 
@@ -56,7 +57,7 @@ const add=async()=>{
 getdata()
 // let final=res.data.note
 // setdata(prev=>[...prev,final])
-setform({title:"",description:""})
+setform({title:"",description:"",photo:""})
 
 }
 
@@ -93,6 +94,7 @@ setedit(ele)
   <form className='w-full flex gap-2 p-4' onSubmit={submit} >
   <input name='title' className='px-6 py-2 border-0 rounded-xl text-black bg-stone-200 ' type="text" placeholder='enter your title' value={form.title} onChange={(e)=>formchange(e)} />
   <input name='description' className='px-6 py-2 border-0 rounded-xl text-black bg-stone-200 ' type="text" placeholder='enter your description' value={form.description} onChange={(e)=>formchange(e)} />
+  <input name='photo' className='px-6 py-2 border-0 rounded-xl text-black bg-stone-200 ' type="text" placeholder='enter your photo' value={form.photo} disabled={!decider} onChange={(e)=>formchange(e)} />
   <button type='submit' value={decider?"add":"edit"} className='px-3 py-2 rounded-xl border-0 bg-amber-300 text-white font-semibold'>{decider?"add":"edit"}</button>
   </form>
 </div>
@@ -103,15 +105,22 @@ setedit(ele)
   data.map((ele,i)=>{
     return(
       
-      <div key={i} className='p-4 bg-stone-400 rounded-xl  text-black font-semibold w-fit'>
+      <div key={i} className='p-4 flex flex-col items-center min-w-60 justify-center gap-2 bg-stone-400 rounded-xl  text-black font-semibold w-fit'>
+        
+        <div className='h-22 w-22 rounded-full bg-white '>
+          <img src={ele.photo} alt="" className='h-full w-full rounded-full' />
+        </div>
 <p>{ele.title}</p>
 <h1>{ele.description}</h1>
-<button  className='bg-red-700 border-0 rounded-xl  text-white font-semibold px-4 capitalize py-2' 
+<div className='flex w-full'>
+
+<button  className='bg-red-700 border-0 rounded-xl w-full  text-white font-semibold  capitalize py-2' 
 onClick={()=>deleter(ele._id)}
 >delete</button>
-<button  className='bg-yellow-700 ml-4  border-0 rounded-xl  text-white font-semibold px-4 capitalize py-2' 
+<button  className='bg-yellow-700 ml-4  border-0 rounded-xl w-full text-white font-semibold  capitalize py-2' 
 onClick={()=>editing(ele)}
 >Edit</button>
+</div>
 </div>
 
 )
