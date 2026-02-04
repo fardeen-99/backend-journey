@@ -7,7 +7,7 @@ const App = () => {
 const [data, setdata] = useState([])
 
 const getdata=async()=>{
-const res=await fetch("http://localhost:3000/api/node")
+const res=await fetch("https://backend-journey-ir1k.onrender.com/api/node")
 const alldata=await res.json()
 setdata(alldata.note)
 }
@@ -22,7 +22,7 @@ e.preventDefault()
 
 const {title,description,photo}=e.target.elements
 
-await fetch("http://localhost:3000/api/node",{
+await fetch("https://backend-journey-ir1k.onrender.com/api/node",{
   method:"POST",
   headers: {
     "Content-Type": "application/json",
@@ -37,7 +37,7 @@ getdata()
 }
 
 const deleter=async(id)=>{
-await fetch(`http://localhost:3000/api/node/${id}`,{
+await fetch(`https://backend-journey-ir1k.onrender.com/api/node/${id}`,{
   method:"DELETE"
 
 })
@@ -48,7 +48,7 @@ getdata()
 const editer=async(id)=>{
 let newdescription=prompt("enter your new description")
 
-await fetch(`http://localhost:3000/api/node/${id}`,{
+await fetch(`https://backend-journey-ir1k.onrender.com/api/node/${id}`,{
   method:"PATCH",
   headers:{"Content-Type":"application/json"},
   body:JSON.stringify({description:newdescription})
