@@ -8,6 +8,9 @@ app.use(cors())
 
 require("dotenv").config()
 
+app.use(express.static("./public"))
+
+
 app.post("/api/node",async(req,res)=>{
 
     const{title,description,photo}=req.body
@@ -32,7 +35,7 @@ res.status(200).json({
 
 })
 app.delete("/api/node/:id",async(req,res)=>{
-const{id}=req.params.id
+const id=req.params.id
 
 const note=await model.findByIdAndDelete(id)
 res.status(200).json({
@@ -41,17 +44,21 @@ res.status(200).json({
 
 })
 app.patch("/api/node/:id",async(req,res)=>{
-const{id}=req.params.id
+const id=req.params.id
 const {description}=req.body
 await model.findByIdAndUpdate(id,{description})
 res.status(200).json({
     message:"your note updated succesfully"
-})
+})  
 
 })
+const path=require("path")
 
-
-
+app.get("*name", (req, res) => {
+  res.sendFile(
+    path.join(__dirname+".."+"./public"+"index.html")
+  )
+})
 
 
 module.exports=app
