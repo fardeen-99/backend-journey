@@ -1,22 +1,25 @@
 const mongoose=require("mongoose")
 
-const postschema=new mongoose.Schema({
+const postSchema=new mongoose.Schema({
     caption:{
         type:String,
-        dafault:""
-    },
-    picture_url:{
-        type:String,
-        required:[true,"picture is required"],
-    },
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
-         required:[true,"profile_name is required"]
+  default:""
+    }
+    ,
+    post_url:{
+type:String,
+required:[true,"post is required"]
+}
+,
+user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"insta-users",
+    required:[true,"user is required"],
     }
 
 })
 
-const postmodel=mongoose.model("post",postschema)
+const postmodel=mongoose.model("post",postSchema)
+
 
 module.exports=postmodel
