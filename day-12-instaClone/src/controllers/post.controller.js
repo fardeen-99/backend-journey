@@ -8,15 +8,15 @@ const image=new ImageKit({
 
 const PostRoute=async(req,res)=>{
 
-const token=req.cookies.token
+// const token=req.cookies.token
 
-if(!token){
-    return res.status(404).json({
-        message:"token inValid"
-    })
-}
+// if(!token){
+//     return res.status(404).json({
+//         message:"token inValid"
+//     })
+// }
 
-const decoded=jwt.verify(token,process.env.JWT_SECRET)
+// const decoded=jwt.verify(token,process.env.JWT_SECRET)
 console.log(req.file,req.body)
 
 const userpost=await image.files.upload({
@@ -28,7 +28,7 @@ const userpost=await image.files.upload({
 const posts=await postModel.create({
 caption:req.body.caption,
 post_url:userpost.url,
-user:decoded.id
+user:req.user.id
 })
 
 
@@ -40,23 +40,8 @@ res.status(200).json({
 }
 
 const GetPost=async(req,res)=>{
-const token=req.cookies.token
-if(!token){
-    return res.status(404).json({
-        message:"token not found"
-    })
-    
-}
-    let decoded=null
-try {
- decoded= jwt.verify(token,process.env.JWT_SECRET)
-    
-} catch (error) {
-   return res.status(401).json({
-        message:"invalid token"
-    })
-}
-const allpost=await postModel.find({user:decoded.id})
+
+const allpost=await postModel.find({user:req.user.id})
 
 
 res.status(200).json({
@@ -71,29 +56,15 @@ res.status(200).json({
 }
 
 const GetDetailPost=async(req,res)=>{
-const token=req.cookies.token
-if(!token){
-    return res.status(404).json({
-        message:"token not found"
-    })
-    
-}
-    let decoded=null
-try {
- decoded= jwt.verify(token,process.env.JWT_SECRET)
-    
-} catch (error) {
-   return res.status(401).json({
-        message:"invalid token"
-    })
-}
+
+
 const id=req.params.id
 
 const detailpost=await postModel.findById(id)
 
 const postUserId = detailpost._id.toString()
 console.log(postUserId)
-console.log(decoded.id)
+// console.log(decoded.id)
 const verification=await id===postUserId
 
 if(!verification){
