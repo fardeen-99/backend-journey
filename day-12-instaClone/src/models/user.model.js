@@ -19,6 +19,7 @@ const userSchema=new mongoose.Schema({
         required:[true,"password is required"],
     },
     bio:String,
+    
     profile_image:{
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgsaRe2zqH_BBicvUorUseeTaE4kxPL2FmOQ&s",
         type:String
