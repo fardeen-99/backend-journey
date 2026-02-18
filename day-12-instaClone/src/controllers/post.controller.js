@@ -1,6 +1,8 @@
 const jwt=require('jsonwebtoken')
 const ImageKit=require("@imagekit/nodejs")
 const postModel=require("../models/post.model")
+const likemodel=require("../models/like.model")
+const CommentModel=require("../models/comment.model")
 const {toFile}=require("@imagekit/nodejs")
 const image=new ImageKit({
     privateKey:"private_8xoNZmFx5vHtoHsbTFvyTqNIdQQ="
@@ -80,4 +82,65 @@ res.status(200).json({
 
 }
 
-module.exports={PostRoute,GetPost,GetDetailPost}
+const LikePost=async(req,res)=>{
+const user=req.user.username
+const post=req.params.id
+
+if(!post){
+    return res.status(404).json({
+        message:"post not found"
+    })
+}
+
+const islike=await likemodel.findOne({
+    user,
+    post
+})
+
+if(islike){
+    return res.status(400).json({
+        message:"you already like this post"
+    })
+}
+
+const like=await likemodel.create({
+    user,
+    post
+})
+
+res.status(200).json({
+    message:"like done successfully",
+    like
+})
+
+    
+}
+
+
+const Comment=async(req,res)=>{
+
+const {comment}=req.body
+
+const user=req.user.username
+const post=req.params.id
+
+
+if(!post){
+    return res.status(404).json({
+        message:"post not found"
+    })
+}
+
+const Usercoment=await CommentModel.create({
+    user,post,comment
+})
+
+res.status(201).json({
+    message:"your comment is registered succesfully"
+    ,Usercoment
+})
+
+
+}
+
+module.exports={PostRoute,GetPost,GetDetailPost,LikePost,Comment}

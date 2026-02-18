@@ -27,7 +27,7 @@ const user=await usermodel.create({
 })
 
 const token= jwt.sign({
-    id:user._id
+    id:user._id,username:user.username
 },process.env.JWT_SECRET,{expiresIn:"1d"})
 
 res.cookie("token",token)
@@ -74,7 +74,7 @@ if(!hash){
 }
 
 const token=jwt.sign({
-    id:user._id
+    id:user._id,username:user.username
 },process.env.JWT_SECRET,{expiresIn:"1d"})
 
 
@@ -93,7 +93,6 @@ profile_image:user.profile_image
 }
 
 const Logout=async(req,res)=>{
-
     
 }
 
