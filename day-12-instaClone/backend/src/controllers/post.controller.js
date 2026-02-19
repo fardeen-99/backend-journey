@@ -1,0 +1,146 @@
+const jwt=require('jsonwebtoken')
+const ImageKit=require("@imagekit/nodejs")
+const postModel=require("../models/post.model")
+const likemodel=require("../models/like.model")
+const CommentModel=require("../models/comment.model")
+const {toFile}=require("@imagekit/nodejs")
+const image=new ImageKit({
+    privateKey:"private_8xoNZmFx5vHtoHsbTFvyTqNIdQQ="
+})
+
+const PostRoute=async(req,res)=>{
+
+// const token=req.cookies.token
+
+// if(!token){
+//     return res.status(404).json({
+//         message:"token inValid"
+//     })
+// }
+
+// const decoded=jwt.verify(token,process.env.JWT_SECRET)
+console.log(req.file,req.body)
+
+const userpost=await image.files.upload({
+   file: await toFile(Buffer.from(req.file.buffer),'file'),
+   fileName:req.body.caption,
+   folder:"insta-clone-final"
+})
+
+const posts=await postModel.create({
+caption:req.body.caption,
+post_url:userpost.url,
+user:req.user.id
+})
+
+
+res.status(200).json({
+    message:"post created succesfully"
+,posts
+})
+
+}
+
+const GetPost=async(req,res)=>{
+
+const allpost=await postModel.find({user:req.user.id})
+
+
+res.status(200).json({
+    message:"user all post",
+    allpost
+})
+
+
+
+
+
+}
+
+const GetDetailPost=async(req,res)=>{
+
+
+const id=req.params.id
+
+const detailpost=await postModel.findById(id)
+
+const postUserId = detailpost._id.toString()
+console.log(postUserId)
+// console.log(decoded.id)
+const verification=await id===postUserId
+
+if(!verification){
+    return res.status(403).json({
+        message:"forbidden the data"
+    })
+}
+
+res.status(200).json({
+    message:"your detail post data",
+    detailpost
+})
+
+}
+
+const LikePost=async(req,res)=>{
+const user=req.user.username
+const post=req.params.id
+
+if(!post){
+    return res.status(404).json({
+        message:"post not found"
+    })
+}
+
+const islike=await likemodel.findOne({
+    user,
+    post
+})
+
+if(islike){
+    return res.status(400).json({
+        message:"you already like this post"
+    })
+}
+
+const like=await likemodel.create({
+    user,
+    post
+})
+
+res.status(200).json({
+    message:"like done successfully",
+    like
+})
+
+    
+}
+
+
+const Comment=async(req,res)=>{
+
+const {comment}=req.body
+
+const user=req.user.username
+const post=req.params.id
+
+
+if(!post){
+    return res.status(404).json({
+        message:"post not found"
+    })
+}
+
+const Usercoment=await CommentModel.create({
+    user,post,comment
+})
+
+res.status(201).json({
+    message:"your comment is registered succesfully"
+    ,Usercoment
+})
+
+
+}
+
+module.exports={PostRoute,GetPost,GetDetailPost,LikePost,Comment}
