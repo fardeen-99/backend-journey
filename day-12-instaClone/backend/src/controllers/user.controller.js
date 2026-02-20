@@ -30,7 +30,11 @@ const token= jwt.sign({
     id:user._id,username:user.username
 },process.env.JWT_SECRET,{expiresIn:"1d"})
 
-res.cookie("token",token)
+res.cookie("token",token,{
+ httpOnly: true,
+  sameSite: "lax",   // strict mat rakho abhi
+  secure: false    
+})
 
 res.status(201).json({
     message:"your registeration successfully done...",
@@ -78,7 +82,11 @@ const token=jwt.sign({
 },process.env.JWT_SECRET,{expiresIn:"1d"})
 
 
-res.cookie("token",token)
+res.cookie("token",token,{
+ httpOnly: true,
+  sameSite: "lax",   // strict mat rakho abhi
+  secure: false    
+})
 
 res.status(200).json({
     message:"your login done succesfully"
@@ -99,5 +107,29 @@ const Logout=async(req,res)=>{
     })
 
 }
+const Getme=async(req,res)=>{
 
-module.exports={Register,Login,Logout}
+  const id=req.user.id
+
+ const user= await usermodel.findById(id)
+
+ if(!user){
+    return res.status(401).json(
+        {message:"unAuthorized access"}
+    )
+ }
+
+ res.status(200).json({
+    user:{
+email:user.email,
+username:user.username,
+bio:user.bio,
+profile_image:user.profile_image
+    }
+ })
+
+
+
+}
+
+module.exports={Register,Login,Logout,Getme}
