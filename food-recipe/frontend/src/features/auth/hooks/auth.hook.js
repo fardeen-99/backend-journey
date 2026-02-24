@@ -10,7 +10,7 @@ export const useAuth=()=>{
     const {user,setUser,loading,setLoading}=useContext(Context)
 
    const loginHandler=async(form)=>{
-    setLoading(true)
+
 try {
     const res=await login(form)
     setUser(res.user)

@@ -7,6 +7,10 @@ image:{
     type:String,
     required:true
 },
+dishName:{
+    type:String,
+    required:true
+},
 ingredients:{
     type:String,
     required:true
@@ -16,6 +20,10 @@ recipe:{
     required:true
 },
 chef:{
+    type:String,
+    required:true
+},
+category:{
     type:String,
     required:true
 },

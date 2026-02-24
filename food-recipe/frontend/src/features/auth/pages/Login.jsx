@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useAuth } from "../hooks/auth.hook"
+import { useNavigate } from "react-router-dom"
 
 const Login=()=>{
+const navigate=useNavigate()
 const [form,setForm]=useState({username:"",password:""})
 
 const {loginHandler,loading}=useAuth()
@@ -12,7 +14,7 @@ const submithandler=async(e)=>{
     const res=await loginHandler(form)
     console.log(res)
     setForm({username:"",password:""})
-    
+    navigate("/home")
 }
 
 if(loading){

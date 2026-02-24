@@ -30,9 +30,10 @@ export const register=async(form)=>{
     
     
 }
-export const getme=async()=>{
+export const Getme=async()=>{
     try {
-        const res=await axios.get("http://localhost:3000/getme")
+        const res=await axios.get("http://localhost:3000/getme",{withCredentials:true})
+        console.log(res)
         return res.data
     } catch (error) {
         throw error
