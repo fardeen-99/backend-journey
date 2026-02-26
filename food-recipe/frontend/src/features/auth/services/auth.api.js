@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api=axios.create({
-    baseURL:"http://localhost:3000/api/auth",
+    baseURL:"https://food-recipe-web.onrender.com/api/auth",
     withCredentials:true
 })
 
@@ -32,7 +32,7 @@ export const register=async(form)=>{
 }
 export const Getme=async()=>{
     try {
-        const res=await axios.get("http://localhost:3000/getme",{withCredentials:true})
+        const res=await axios.get("https://food-recipe-web.onrender.com/getme",{withCredentials:true})
         console.log(res)
         return res.data
     } catch (error) {

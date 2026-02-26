@@ -12,7 +12,7 @@ app.use(cookieparser())
 app.use(express.json())
 app.use(cors({
     credentials:true,
-    origin:"http://localhost:5173"
+    origin:"https://food-recipe-web.onrender.com"
 }))
 app.use(express.static("public"))
 app.use("/api/auth",authRouter)
