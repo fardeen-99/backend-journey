@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { RecipeContext } from "../recipe.context";
-import { addTOfvrt, fvrtdlt, getfvrt, recipepost, singleRecipeDelete, unfvrt } from "../services/recipe.api";
+import { addTOfvrt, fvrtdlt, getfvrt, recipepost, RecipeUpdae, singleRecipeDelete, unfvrt } from "../services/recipe.api";
 import { getallRecipe } from "../services/recipe.api";
 import { getSingleRecipe } from "../services/recipe.api";
 
@@ -62,5 +62,14 @@ const postdelete=async(id)=>{
     await getAllRecipe()
 }
 
-return{getRecipe,setRecipe,recipe,getAllRecipe,GetSingleRecipe,singleRecipe,getToknowfvrt,handleFvrt,handleUnFvrt,handlefvrtdlt,postdelete}
+
+const handleRecipeUpdate=async(id,form)=>{
+    const res=await RecipeUpdae(id,form)
+    await GetSingleRecipe(id)
+    await getAllRecipe()
+
+
+}
+
+return{getRecipe,setRecipe,recipe,getAllRecipe,GetSingleRecipe,singleRecipe,getToknowfvrt,handleFvrt,handleUnFvrt,handlefvrtdlt,postdelete,handleRecipeUpdate}
 }

@@ -63,3 +63,9 @@ export const singleRecipeDelete=async(id)=>{
     const res=await api.delete(`/single/${id}`)
     return res.data
 }
+
+export const RecipeUpdae=async(id,form)=>{
+
+const res =await api.patch(`/single/${id}`,form)
+return res.data
+}

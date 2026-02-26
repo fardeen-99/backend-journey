@@ -1,32 +1,40 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useRecipe } from "../hooks/recipe.hook"
 import { useState } from "react"
 
-const FormEdit=()=>{
-    const {id}=useParams()
+const FormEdit = () => {
+    const { id } = useParams()
+const navigate=useNavigate()
+    const { recipe, handleRecipeUpdate } = useRecipe()
+    const filteru = recipe.filter((item) => item._id === id)
+    console.log(filteru)
 
-const {recipe}=useRecipe()
-const filteru=recipe.filter((item)=>item._id===id)
-console.log(filteru)
+    const [edit, setEdit] = useState({
+        dishName: filteru[0].dishName,
+        ingredients: filteru[0].ingredients,
+        recipe: filteru[0].recipe,
+        chef: filteru[0].chef,
+        category: filteru[0].category
+    })
 
-const [edit,setEdit]=useState({
-    dishName:filteru[0].dishName,
-    ingredients:filteru[0].ingredients,
-    recipe:filteru[0].recipe,
-    chef:filteru[0].chef,
-    category:filteru[0].category
-})
+    const submiterHandler = async (e) => {
+        e.preventDefault()
+        console.log(id)
+        console.log(edit)
+        await handleRecipeUpdate(id,edit)
+        navigate(`/collection/${id}`)
 
+    }
 
-
-    return(
-        <div className="flex items-center justify-center h-screen">
-            <form className="flex flex-col gap-4 w-[90%] max-w-100" >
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.dishName} onChange={(e)=>setEdit({...edit,dishName:e.target.value})}/>
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.ingredients} onChange={(e)=>setEdit({...edit,ingredients:e.target.value})}/>
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.recipe} onChange={(e)=>setEdit({...edit,recipe:e.target.value})}/>
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.chef} onChange={(e)=>setEdit({...edit,chef:e.target.value})}/>
-                             <select className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none bg-transparent px-3" name="category" id="" value={edit.category} onChange={(e)=>setEdit({...edit,category:e.target.value})}>
+    return (
+        <div className="flex items-center justify-center h-screen flex-col ">
+            <p className="text-red-200 text-[10px] mb-5">* add spaces for " | " in ingredients.</p>
+            <form className="flex flex-col gap-4 w-[90%] max-w-100" onSubmit={submiterHandler}>
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.dishName} onChange={(e) => setEdit({ ...edit, dishName: e.target.value })} />
+                <textarea rows={3} cols={10} className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.ingredients} onChange={(e) => setEdit({ ...edit, ingredients: e.target.value })} />
+                <textarea rows={3} cols={10} className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.recipe} onChange={(e) => setEdit({ ...edit, recipe: e.target.value })} />
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" value={edit.chef} onChange={(e) => setEdit({ ...edit, chef: e.target.value })} />
+                <select className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none bg-transparent px-3" name="category" id="" value={edit.category} onChange={(e) => setEdit({ ...edit, category: e.target.value })}>
                     <option className="bg-gray-800 text-white" value="">Select Category</option>
                     <option className="bg-gray-800 text-white" value="breakfast">Breakfast</option>
                     <option className="bg-gray-800 text-white" value="lunch">Lunch</option>

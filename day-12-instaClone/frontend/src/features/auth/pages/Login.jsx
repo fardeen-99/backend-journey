@@ -36,9 +36,12 @@ const submitu=async(e)=>{
         password:""
     })
  
+    
 
 navigate("/")
 }
+
+const 
 
   return (
     <main>

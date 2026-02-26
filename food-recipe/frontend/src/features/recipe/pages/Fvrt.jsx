@@ -40,15 +40,15 @@ pauseOnHover
 theme="colored"
 transition={Bounce}
 />
-        <div className=" w-full h-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] m-auto gap-10 p-6 mt-6 mb-10">
+        <div className=" w-[80%] m-auto lg:w-full  min-h-screen flex lg:flex-wrap gap-10 p-6 mt-6 mb-10 flex-col lg:flex-row">
 
             {favourite?.map((item)=>{
                     return(
-                        <div key={item._id} className="h-[250px] relative rounded-xl max-w-[350px]" 
+                        <div key={item._id} className="h-[250px] relative rounded-xl w-[250px] max-w-[350px]" 
                        
                         >
                             
-                    <h1 className="absolute bottom-3 left-1/2 text-white text-3xl transform translate-x-[-50%] font-semibold">{item.dishName}</h1>
+                    <h1 className="absolute bottom-3 whitespace-nowrap left-1/2 text-white text-3xl transform translate-x-[-50%] font-semibold">{item.dishName}</h1>
                     <img 
                      onClick={()=>navigate(`/collection/${item._id}`)}
                     className="w-full h-full object-cover rounded-xl" src={item.image} alt="" />
@@ -68,7 +68,7 @@ transition: Bounce,
 });
                         console.log(item._id)
                     }}
-                    className="absolute top-3 right-3 z-10 text-red-500 text-3xl" />
+                    className="absolute top-3 right-3 z-8 text-red-500 text-3xl" />
                 
                 </div>
                     )

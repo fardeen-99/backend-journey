@@ -31,7 +31,7 @@ formData.append("form",JSON.stringify(form))
 const res=await getRecipe(formData)
 console.log(res)
 getAllRecipe()
-    toast.success("Recipe created successfully")
+    // toast.success("Recipe created successfully")
 
     }
     return(
@@ -48,7 +48,7 @@ getAllRecipe()
                     <option className="bg-gray-800 text-white" value="lunch">Lunch</option>
                     <option className="bg-gray-800 text-white" value="dinner">Dinner</option>
                 </select>
-                <button type="submit" className="w-full h-15 border border-gray-300 rounded outline-none px-3 bg-yellow-500 font-semibold text-white">Create Recipe</button>
+                <button type="submit" className="w-full h-15 md:h-25 border border-gray-300 rounded outline-none px-3 bg-yellow-500 font-semibold text-white hover:bg-yellow-600 transition-all duration-300 active:scale-90">Create Recipe</button>
             </form>
         </div>
     )

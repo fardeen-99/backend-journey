@@ -25,3 +25,14 @@ body{
     background: linear-gradient(to right, #ff7e5f, #feb47b);
 
 }
+
+
+::-webkit-scrollbar{
+    width: 7px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #ffffff;
+    border-radius: 10px;
+}

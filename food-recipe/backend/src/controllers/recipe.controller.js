@@ -75,8 +75,14 @@ res.status(200).json({
 }
 
 const updateRecipe=async(req,res)=>{
-const {ingredients,recipe,chef,dishName }=req.body
-   const response= await recipeModel.findByIdAndUpdate(req.params.id,{ingredients,recipe,chef,dishName,category})
+const {ingredients,recipe,chef,dishName,category }=req.body   
+
+
+let cleaned = ingredients.replace(/\|/g, " ").replace(/\s+/g, " ").trim();
+
+cleaned=cleaned.split(" ").join(" | ")
+
+   const response= await recipeModel.findByIdAndUpdate(req.params.id,{ingredients:cleaned,recipe,chef,dishName,category})
    if(!response){
       return res.status(404).json({
            message:"recipe not found"

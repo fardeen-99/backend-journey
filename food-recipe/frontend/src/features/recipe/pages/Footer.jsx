@@ -6,7 +6,7 @@ const Footer=()=>{
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
       <div>
-        <h2 class="text-2xl font-bold text-white">YourBrand</h2>
+        <h2 class="text-2xl font-bold text-white">Recipe World</h2>
         <p class="mt-4 text-sm text-gray-400">
           Building modern web experiences with clean design and powerful backend.
         </p>
