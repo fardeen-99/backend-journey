@@ -56,6 +56,13 @@ recipeRouter.patch("/single/:id",Identifier,recipeController.updateRecipe)
 recipeRouter.post("/fvrt/:id",Identifier,recipeController.addTOfvrt)
 
 /*
+@Routes: api/recipe/unfvrt/:id
+@desc --> unfvrt
+@access private
+*/
+
+recipeRouter.post("/unfvrt/:id",Identifier,recipeController.unfvrt)
+/*
 @Routes: api/recipe/fvrt/delete/:id
 @desc --> delete fvrt
 @access private
@@ -69,11 +76,11 @@ recipeRouter.post("/fvrt/delete/:id",Identifier,recipeController.dltfvrt)
 @access private
 */
 
-recipeRouter.get("/fvrt",Identifier,recipeController.getfvrt)
+recipeRouter.get("/favourite",Identifier,recipeController.getfvrt) 
 
 
 
-
+    
 
 
 

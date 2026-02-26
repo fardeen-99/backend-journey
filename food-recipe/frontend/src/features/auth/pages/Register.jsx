@@ -1,16 +1,18 @@
 import { useState } from "react"
 import { useAuth } from "../hooks/auth.hook"
 import { Link } from "react-router-dom"
-
+import { useNavigate } from "react-router-dom"
 const Register=()=>{
 
     const [form,setForm]=useState({username:"",email:"",password:""})
     const {registerHandler,loading}=useAuth()
 
+    const navigate=useNavigate()
     const submithandler=async(e)=>{
         e.preventDefault()
         await registerHandler(form)
         setForm({username:"",email:"",password:""})
+        navigate("/")
     }
 
     if(loading){

@@ -14,7 +14,7 @@ const submithandler=async(e)=>{
     const res=await loginHandler(form)
     console.log(res)
     setForm({username:"",password:""})
-    navigate("/home")
+    navigate("/")
 }
 
 if(loading){

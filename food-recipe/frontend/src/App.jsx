@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Form, RouterProvider } from "react-router-dom"
 import Login from "./features/auth/pages/Login"
 import Register from "./features/auth/pages/Register"
 import Applayout from "./features/recipe/pages/Applayout"
@@ -8,6 +8,8 @@ import ProtectedRoute from "./features/auth/pages/ProtectedRoute"
 import CreateRecipe from "./features/recipe/pages/CreateRecipe"
 import Collection from "./features/recipe/pages/Collection"
 import SingleRecipe from "./features/recipe/pages/SingleRecipe"
+import Fvrt from "./features/recipe/pages/fvrt"
+import FormEdit from "./features/recipe/pages/FormEdit"
 const App=()=>{
 
 
@@ -45,6 +47,12 @@ const router=createBrowserRouter(
         },{
           path:"/collection/:id",
           element:<SingleRecipe/>
+        },{
+          path:"/fvrt",
+          element:<Fvrt/>
+        },{
+          path:"/edit/:id",
+          element:<FormEdit/>
         }
       ]
     }

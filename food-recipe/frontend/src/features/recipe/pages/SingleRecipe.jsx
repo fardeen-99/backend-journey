@@ -1,14 +1,27 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useRecipe } from "../hooks/recipe.hook"
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"
 
 const SingleRecipe=()=>{
    const {id}=useParams()
-const {GetSingleRecipe,singleRecipe}=useRecipe()
+const {GetSingleRecipe,singleRecipe,getToknowfvrt,fvrt,handleFvrt,handleUnFvrt,postdelete}=useRecipe()
+const navigate=useNavigate()
    useEffect(()=>{
     GetSingleRecipe(id)
-   },[id])
+   },[])
+console.log(fvrt)
 
+
+const postkarodelete=(id)=>{
+
+    postdelete(id)
+    navigate("/collection")
+}
+
+// console.log(singleRecipe)
     return(
         <div>
         {singleRecipe.map((item)=>{
@@ -26,10 +39,11 @@ const {GetSingleRecipe,singleRecipe}=useRecipe()
                     <p className="text-2xl border-b border-gray-300 ">{item.chef}</p>
                     <p className="text-2xl border-b border-gray-300 ">{item.category}</p>
                     <div className="flex gap-4">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">Edit</button>
-                        <button className="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={()=>navigate(`/edit/${item._id}`)}>Edit</button>
+                        <button onClick={()=>postkarodelete(item._id)} className="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
                     </div>
                     </div>
+                    <div onClick={()=>{item.isfvrt?handleUnFvrt(item._id):handleFvrt(item._id)}}>{item.isfvrt?<FaHeart className="text-red-500 cursor-pointer text-3xl" />:<FaRegHeart className="text-white cursor-pointer text-3xl" />}</div>
                 </div>
             )
         })}

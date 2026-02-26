@@ -47,18 +47,27 @@ const GetRecipes=async(req,res)=>{
 }
 const GetSingleRecipe=async(req,res)=>{
 
-    const single=await recipeModel.find({_id:req.params.id})
+  const item = await recipeModel
+  .findById(req.params.id)
+  .populate("user")
+  .lean()
 
-    res.status(200).json({
-        message:"your all recipes",
-        single
-    })
+const isfvrt = await fvrtmodel.findOne({
+   user:req.user.id,
+   dish:item._id
+})
+
+item.isfvrt = !!isfvrt
+
+res.status(200).json({
+   single:[item]
+})
 
 }
 
 const deleteRecipe=async(req,res)=>{
 
-   const response= await recipeModel.findByIdAndDelete({_id:req.params.id})
+   const response= await recipeModel.findByIdAndDelete(req.params.id)
 res.status(200).json({
     message:"your recipe is deleted"
 })
@@ -83,39 +92,46 @@ res.status(200).json({
 
 const addTOfvrt=async(req,res)=>{
 
-const IsExist=await fvrtmodel.findOne({
-    user:req.user.id,
-    dish:req.params.id
-})
-
-if(IsExist){
-
-await fvrtmodel.findByIdAndDelete(IsExist._id)
-
-return res.status(200).json({
-    mesaage:"unfvrt done",
-    isfvrt:false
-})
-}
-
-
+    console.log("USER:", req.user)
+    console.log("PARAM ID:", req.params.id)
 await fvrtmodel.create({
-
     user:req.user.id,
     dish:req.params.id
 })
 
 
 return res.status(201).json({
-    mesaage:"fvrt done",
-    isfvrt:true
+    mesaage:"fvrt done"
 })
 
 
 }
+
+const unfvrt=async(req,res)=>{
+
+const IsExist=await fvrtmodel.findOne({
+    user:req.user.id,
+    dish:req.params.id
+})
+
+if(!IsExist){
+    return res.status(404).json({
+        message:"no fvrt is found for delete"
+    })
+}
+
+await fvrtmodel.findByIdAndDelete(IsExist._id)
+
+return res.status(200).json({
+    message:"unfvrt done"
+})
+
+
+}
+
 const dltfvrt=async(req,res)=>{
 
-    const isAvailable=await fvrtmodel.findById(req.params.id)
+    const isAvailable=await fvrtmodel.findOne({dish:req.params.id})
 
     if(!isAvailable){
         res.status(404).json({
@@ -123,7 +139,7 @@ const dltfvrt=async(req,res)=>{
         })
     }
 
-await fvrtmodel.findByIdAndDelete(req.params.id)
+await fvrtmodel.findByIdAndDelete(isAvailable._id)
 
   res.status(201).json({
       message: "Recipe deleted from favourites",
@@ -133,14 +149,27 @@ await fvrtmodel.findByIdAndDelete(req.params.id)
 
 const getfvrt=async(req,res)=>{
 
-   const fvrt=await fvrtmodel.find({user:req.user.id}).populate("dish")
+   const ans=await recipeModel.find().lean()
+   
+   
+   
+   const fvrt=await Promise.all(ans.map(async(item)=>{
+    
+    const isfvrt=await fvrtmodel.findOne({
+        user:req.user.id,
+        dish:item._id
+    })
 
+   item.isfvrt= !!isfvrt
+   return item
+
+   }))
+// console.log(fvrt)
    res.status(200).json({
-    message:"your fvrt data"
-    ,favourite:fvrt
+    favourite:fvrt
    })
 
 }
 
 
-module.exports={recipePost,GetRecipes,GetSingleRecipe,deleteRecipe,updateRecipe,addTOfvrt,dltfvrt,getfvrt}
+module.exports={recipePost,GetRecipes,GetSingleRecipe,deleteRecipe,updateRecipe,addTOfvrt,dltfvrt,getfvrt,unfvrt}

@@ -39,3 +39,27 @@ export const getSingleRecipe=async(id)=>{
     }
 }
 
+export const getfvrt=async()=>{
+   const res= await api.get("/favourite")
+   return res.data
+}
+
+export const addTOfvrt=async(id)=>{
+   const res= await api.post(`/fvrt/${id}`)
+   return res.data
+}
+
+export const unfvrt=async(id)=>{
+   const res= await api.post(`/unfvrt/${id}`)
+   return res.data
+}
+
+export const fvrtdlt=async(id)=>{
+    const res=await api.post(`/fvrt/delete/${id}`)
+    return res.data
+}
+
+export const singleRecipeDelete=async(id)=>{
+    const res=await api.delete(`/single/${id}`)
+    return res.data
+}

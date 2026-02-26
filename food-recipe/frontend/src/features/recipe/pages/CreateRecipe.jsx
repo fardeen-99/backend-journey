@@ -31,7 +31,7 @@ formData.append("form",JSON.stringify(form))
 const res=await getRecipe(formData)
 console.log(res)
 getAllRecipe()
-    
+    toast.success("Recipe created successfully")
 
     }
     return(
