@@ -101,10 +101,12 @@ const UnfollowRoute=async(req,res)=>{
 const myid=req.user.id
 const followee=req.params.id
 
+console.log(myid,followee)
 const request=await followmodel.findOne({
     follower:myid,
     followee,
 })
+// console.log(request.follower,request.followee)
 
 if(!request){
 

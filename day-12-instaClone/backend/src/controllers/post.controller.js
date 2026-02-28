@@ -2,7 +2,9 @@ const jwt=require('jsonwebtoken')
 const ImageKit=require("@imagekit/nodejs")
 const postModel=require("../models/post.model")
 const likemodel=require("../models/like.model")
+const followmodel=require("../models/follow.model")
 const CommentModel=require("../models/comment.model")
+const savemodel=require('../models/save.model')
 const {toFile}=require("@imagekit/nodejs")
 const image=new ImageKit({
     privateKey:"private_8xoNZmFx5vHtoHsbTFvyTqNIdQQ="
@@ -43,14 +45,46 @@ res.status(200).json({
 
 const GetPost=async(req,res)=>{
 
-const allpost=await postModel.find({user:req.user.id})
+const allpost=await postModel.find().populate("user","-password").lean()
 
+const final=await Promise.all(allpost.map(async(item)=>{
 
-res.status(200).json({
-    message:"user all post",
-    allpost
+ const response=await likemodel.findOne({
+    post:item._id,
+    user:req.user.id
+ })
+
+ item.islike = !!response
+
+const followres=await followmodel.findOne({
+    follower:req.user.id,
+    followee:item.user._id
 })
 
+item.isfollow=!!followres
+
+
+const save=await savemodel.findOne({
+
+    post:item._id,
+    user:req.user.id
+})
+
+item.save=!!save
+
+ return item
+
+
+
+
+}))
+
+
+// console.log(final)
+res.status(200).json({
+    message:"user all post",
+    final
+})
 
 
 
@@ -69,6 +103,7 @@ console.log(postUserId)
 // console.log(decoded.id)
 const verification=await id===postUserId
 
+
 if(!verification){
     return res.status(403).json({
         message:"forbidden the data"
@@ -83,7 +118,7 @@ res.status(200).json({
 }
 
 const LikePost=async(req,res)=>{
-const user=req.user.username
+const user=req.user.id
 const post=req.params.id
 
 if(!post){
@@ -121,7 +156,7 @@ const Comment=async(req,res)=>{
 
 const {comment}=req.body
 
-const user=req.user.username
+const user=req.user.id
 const post=req.params.id
 
 
@@ -143,4 +178,72 @@ res.status(201).json({
 
 }
 
-module.exports={PostRoute,GetPost,GetDetailPost,LikePost,Comment}
+const unLikePost=async(req,res)=>{
+
+const post=await likemodel.findOne({
+    user:req.user.id,
+    post:req.params.id
+})
+if(!post){
+    return res.status(404).json({
+        message:"post not found"
+    })
+}
+
+const response=await likemodel.findByIdAndDelete(post._id)
+
+res.status(200).json({
+    message:"post disliked"
+})
+
+
+
+
+}
+
+
+const saver=async(req,res)=>{
+
+const save=await savemodel.findOne({
+    post:req.params.id
+    ,user:req.user.id
+})
+
+if(save){
+    return res.status(409).json({
+        message:"this post is already saved"
+    })
+}
+
+const response=await savemodel.create({
+     post:req.params.id
+    ,user:req.user.id
+})
+
+res.status(200).json({
+        message:"post is saved",
+        response
+    })
+}
+const unsaver=async(req,res)=>{
+
+const save=await savemodel.findOne({
+    post:req.params.id
+    ,user:req.user.id
+})
+
+if(!save){
+    return res.status(404).json({
+        message:"this post is not found for save"
+    })
+}
+
+const response=await savemodel.findByIdAndDelete(save._id)
+
+res.status(200).json({
+        message:"post is unsaved",
+        response
+    })
+}
+
+module.exports={PostRoute,GetPost,GetDetailPost,LikePost,Comment,unLikePost,saver,unsaver}

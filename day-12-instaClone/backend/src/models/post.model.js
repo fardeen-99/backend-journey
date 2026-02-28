@@ -13,7 +13,7 @@ required:[true,"post is required"]
 ,
 user:{
     type:mongoose.Schema.Types.ObjectId,
-    ref:"insta-users",
+    ref:"insta-user",
     required:[true,"user is required"],
     }
 

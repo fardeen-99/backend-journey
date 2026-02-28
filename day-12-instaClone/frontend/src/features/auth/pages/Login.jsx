@@ -30,7 +30,6 @@ const submitu=async(e)=>{
 
   const res= await Loginhandle(form)
 
- console.log(res)
  setform({
         username:"",
         password:""
@@ -41,7 +40,7 @@ const submitu=async(e)=>{
 navigate("/")
 }
 
-const 
+
 
   return (
     <main>

@@ -37,3 +37,9 @@ export const Logout=async()=>{
   const res=await api.post("/api/auth/logout")
   return res.data
 }
+
+export const getallpost=async()=>{
+
+  const res=await axios.get("http://localhost:3000/api/post",{withCredentials:true})
+  return res.data
+}
