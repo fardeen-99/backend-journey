@@ -9,6 +9,8 @@ import ProtectedRoute from './features/auth/pages/ProtectedRoute'
 import Applayout from './features/post/pages/Applayout'
 import Create from './features/post/pages/Create'
 import Save from './features/post/pages/save'
+import Profile from './features/post/pages/Profile'
+import DetailPost from './features/post/pages/DetailPost'
 const App = () => {
 
 const router=createBrowserRouter([
@@ -35,8 +37,14 @@ const router=createBrowserRouter([
 },{
   path:"/save",
   element:<Save/>
+},{
+  path:"/profile",
+  element:<Profile/>
 }
   ]
+},{
+  path:"/feed/:id",
+  element:<DetailPost/>
 }
 
 ])

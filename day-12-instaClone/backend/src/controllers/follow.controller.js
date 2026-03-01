@@ -1,5 +1,6 @@
 const followmodel=require("../models/follow.model")
 const usermodel=require("../models/user.model")
+const postmodel=require("../models/post.model")
 
 const FollowRoute=async(req,res)=>{
 
@@ -124,6 +125,12 @@ res.status(200).json({
 
 
 }
+
+// const useralldetail=async(req,res)=>{
+
+
+
+// }
 
 
 module.exports={FollowRoute,AcceptRoute,Reject,UnfollowRoute}

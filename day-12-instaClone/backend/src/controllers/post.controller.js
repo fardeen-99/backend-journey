@@ -32,8 +32,11 @@ const userpost=await image.files.upload({
 const posts=await postModel.create({
 caption:req.body.caption,
 post_url:userpost.url,
+mediatype:userpost.fileType,
 user:req.user.id
 })
+
+console.log(userpost)
 
 
 res.status(200).json({
@@ -72,6 +75,13 @@ const save=await savemodel.findOne({
 
 item.save=!!save
 
+const likecount=await likemodel.countDocuments({
+    post:item._id
+})
+
+item.likecount=likecount
+
+
  return item
 
 
@@ -96,12 +106,13 @@ const GetDetailPost=async(req,res)=>{
 
 const id=req.params.id
 
-const detailpost=await postModel.findById(id)
+const detailpost=await postModel.findById(id).populate("user","-password").lean()
 
 const postUserId = detailpost._id.toString()
 console.log(postUserId)
 // console.log(decoded.id)
 const verification=await id===postUserId
+
 
 
 if(!verification){
@@ -110,6 +121,27 @@ if(!verification){
     })
 }
 
+const likecount=await likemodel.countDocuments({
+    post:id
+})
+detailpost.likecount=likecount
+
+
+const savecount=await savemodel.countDocuments({
+    post:id
+})
+detailpost.savecount=savecount
+
+const commentcount=await CommentModel.countDocuments({
+    post:id
+})
+detailpost.commentcount=commentcount
+
+const comment=await CommentModel.find({post:id})
+detailpost.comment=comment
+
+
+console.log(detailpost)
 res.status(200).json({
     message:"your detail post data",
     detailpost

@@ -40,7 +40,6 @@ useEffect(() => {
 
 
 const Loginhandle=async(form)=>{
-setloading(true)
     try {
         const res=await Login(form)
       
@@ -57,7 +56,6 @@ setloading(true)
 }
 
 const RegisterHandle=async(form)=>{
-    setloading(true)
     try {
         const res=await Register(form)
       
@@ -75,7 +73,7 @@ const RegisterHandle=async(form)=>{
 
 
 return(
-    <Context.Provider  value={{RegisterHandle,Loginhandle,user,loading,allpost,setallpost,handlegetallpost}} >
+    <Context.Provider  value={{RegisterHandle,Loginhandle,user,loading,allpost,setallpost,handlegetallpost,fetchUser}} >
         {children}
     </Context.Provider>
 )

@@ -1,4 +1,6 @@
 const usermodel=require("../models/user.model")
+const followmodel=require("../models/follow.model")
+const postmodel=require("../models/post.model")
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const Register=async(req,res)=>{
@@ -42,7 +44,8 @@ res.status(201).json({
 email:user.email,
 username:user.username,
 bio:user.bio,
-profile_image:user.profile_image
+profile_image:user.profile_image,
+id:user._id
     }
 })
 } 
@@ -94,7 +97,8 @@ res.status(200).json({
 email:user.email,
 username:user.username,
 bio:user.bio,
-profile_image:user.profile_image
+profile_image:user.profile_image,
+id:user._id
     }
 })
 
@@ -119,12 +123,26 @@ const Getme=async(req,res)=>{
     )
  }
 
+const follower=await followmodel.countDocuments({
+    followee:id
+})
+const following=await followmodel.countDocuments({
+    follower:id
+})
+
+const postcount=await postmodel.countDocuments({
+    user:id
+})
  res.status(200).json({
     user:{
 email:user.email,
 username:user.username,
 bio:user.bio,
-profile_image:user.profile_image
+profile_image:user.profile_image,
+id:user._id,
+follower,
+following,
+postcount
     }
  })
 

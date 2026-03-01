@@ -38,3 +38,7 @@ export const unsave=async(id)=>{
     const res=await api.post(`/post/unsave/${id}`)
     return res.data
 }
+export const detailposting=async(id)=>{
+    const res=await api.get(`/post/detail/${id}`)
+    return res.data
+}

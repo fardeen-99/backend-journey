@@ -15,6 +15,10 @@ user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"insta-user",
     required:[true,"user is required"],
+    },
+    mediatype:{
+        type:String,
+required:[true,"file is required"]
     }
 
 })

@@ -51,6 +51,7 @@ navigate("/")
             <input type="text"
             placeholder='enter your username'
             required
+            className='w-full border-2 border-amber-100'
             name='username'
             onChange={(e)=>inputchange(e)}
             value={form.username}

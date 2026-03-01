@@ -19,6 +19,8 @@ gap: 1rem;
         h1{
 // text-align: center;
 text-indent: 10px;
+font-size: 1.4rem;
+font-weight: 700;
         }
 
         form{
@@ -29,14 +31,15 @@ text-indent: 10px;
         input,button{
             min-width: 300px;
             padding: 1rem;
-            border: none;
             outline: none;
             font-weight: 600;
             border-radius: 16px;
-            color: #1f1f1f
+            color: #ffff
+            ;border: 2px solid rgb(136, 149, 150);
             
         }
         button{
+            border: none;
             color: white;
             font-size: 1rem;
             background-color: rgb(187, 9, 45);
