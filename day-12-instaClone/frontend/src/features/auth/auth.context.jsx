@@ -11,7 +11,7 @@ export const Provider=({children})=>{
     const [user, setuser] = useState(null)
     const [loading, setloading] = useState(true)
     const [allpost,setallpost]=useState([])
-
+const [savepost,setsavepost]=useState([])
 
     const fetchUser = async () => {
         try {
@@ -35,7 +35,7 @@ useEffect(() => {
 
 
     fetchUser();
-    handlegetallpost()
+    
 }, []);
 
 
@@ -73,7 +73,7 @@ const RegisterHandle=async(form)=>{
 
 
 return(
-    <Context.Provider  value={{RegisterHandle,Loginhandle,user,loading,allpost,setallpost,handlegetallpost,fetchUser}} >
+    <Context.Provider  value={{RegisterHandle,Loginhandle,user,loading,allpost,setallpost,handlegetallpost,fetchUser,savepost,setsavepost}} >
         {children}
     </Context.Provider>
 )

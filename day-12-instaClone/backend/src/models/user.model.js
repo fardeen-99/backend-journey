@@ -21,8 +21,8 @@ const userSchema=new mongoose.Schema({
     bio:String,
     
     profile_image:{
+        type:String,
         default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgsaRe2zqH_BBicvUorUseeTaE4kxPL2FmOQ&s",
-        type:String
     }
 })
 

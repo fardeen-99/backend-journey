@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Context } from "../post.context"
-import { detailposting, folllow, like, save, unfolllow, unlike, unsave, upload } from "../services/post.api"
+import { detailposting, folllow, like, save, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
 import { Useauth } from "../../auth/hooks/auth.hook"
 
 
@@ -49,8 +49,18 @@ export const usePost = () => {
         setSinglepost(res.detailpost)
         console.log(res.detailpost)
     }
+    const commentHandle=async(id,comment)=>{
+        const res=await commentposting(id,comment)
+        await detailpostHandle(id)
+        await handlegetallpost()
+    }
 
-    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost })
+
+    const updateHandle=async(id,formset)=>{
+        const res=await update(id,formset)
+        await handlegetallpost()
+    }
+    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost,commentHandle,updateHandle })
 
 
 }

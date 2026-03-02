@@ -3,8 +3,21 @@ const followmodel=require("../models/follow.model")
 const postmodel=require("../models/post.model")
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
+const ImageKit=require("@imagekit/nodejs")
+const {toFile}=require("@imagekit/nodejs")
+const image=new ImageKit({
+    privateKey:"private_8xoNZmFx5vHtoHsbTFvyTqNIdQQ="
+})
+
+
 const Register=async(req,res)=>{
-    const {username,email,password,bio,profile_image}=req.body
+    const {username,email,password,bio}=req.body
+
+    const proilePic=await image.files.upload({
+        file:await toFile(Buffer.from(req.file.buffer),'file'),
+        fileName:req.body.username,
+        folder:"insta-clone-Dp"
+    })
 
    const ISUSERALREADYEXIST = await usermodel.findOne({
         $or:[
@@ -25,7 +38,7 @@ if(ISUSERALREADYEXIST){
 
 const hash=await bcrypt.hash(password,10)
 const user=await usermodel.create({
-    username,email,bio,profile_image,password:hash
+    username,email,bio,profile_image:proilePic.url,password:hash
 })
 
 const token= jwt.sign({
@@ -55,6 +68,8 @@ id:user._id
 const Login=async(req,res)=>{
 
 const {email,username,password}=req.body
+
+
 
 
 const user=await usermodel.findOne({
@@ -149,5 +164,58 @@ postcount
 
 
 }
+const Update = async (req, res) => {
+  try {
 
-module.exports={Register,Login,Logout,Getme}
+    const userId = req.params.id
+
+    let updateData = {}
+
+    // Agar username aaya
+    if (req.body.username) {
+      updateData.username = req.body.username
+    }
+
+    // Agar bio aaya
+    if (req.body.bio) {
+      updateData.bio = req.body.bio
+    }
+
+    // Agar file aayi
+    if (req.file) {
+      const uploaded =await image.files.upload({
+        file:await toFile(Buffer.from(req.file.buffer),'file'),
+        fileName:req.body.username || "profile",
+        folder:"insta-clone-Dp"
+    })
+
+      updateData.profile_image = uploaded.url
+    }
+
+    // Agar kuch bhi nahi aaya
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        message: "No data provided for update"
+      })
+    }
+
+    const updatedUser = await usermodel.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    )
+
+    res.json({
+      success: true,
+      user: updatedUser
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: error.message
+    })
+  }
+}
+
+module.exports={Register,Login,Logout,Getme,Update}

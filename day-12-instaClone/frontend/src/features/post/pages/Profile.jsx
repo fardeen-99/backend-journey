@@ -40,6 +40,7 @@ handlegetallpost()
                 <img src={user.profile_image} alt="" className='h-30 w-30 md:h-40 md:w-40 rounded-full object-cover' />
                 <div className='flex flex-col gap-2 md:gap-4 justify-center'>
 <h1 className='text-2xl md:text-4xl font-semibold uppercase'>{user.username}</h1>
+
 <div className='flex gap-3 w-full'>
 <p className='text-sm md:text-base whitespace-nowrap'>{user.postcount} posts</p>
 <p className='text-sm md:text-base whitespace-nowrap'>{user.follower} followers</p>
@@ -54,8 +55,10 @@ handlegetallpost()
     </div>
 ):(<p>loading...</p>)} 
 <div className='w-[80%] m-auto flex gap-3  text-white pb-6 '>
-  <button className='w-full text-center py-3 rounded-xl bg-zinc-900' >Edit Profile</button>
-  <button className='w-full text-center py-3 rounded-xl bg-zinc-900' >View Archieve</button>
+  <button className='w-full text-center py-3 rounded-xl bg-zinc-900 active:scale-95 transition-all duration-200'
+  onClick={()=>navigate("/profileUpdate/"+user.id)}
+  >Edit Profile</button>
+  <button className='w-full text-center py-3 rounded-xl bg-zinc-900 active:scale-95 transition-all duration-200' >View Archieve</button>
 </div>
 
 <div className='flex overflow-x-scroll py-4 w-[80%] m-auto snap-x snap-mandatory'>
@@ -63,7 +66,8 @@ handlegetallpost()
     userprofile?.map((item)=>{
       return(
         <>
-        <div className='h-20 w-20 rounded-full shrink-0 bg-zinc-900 '>
+        <div className='h-20 w-20 rounded-full shrink-0 bg-zinc-900 '
+        onClick={()=>navigate(`/feed/${item._id}`)}>
           {item.mediatype==="non-image"?<video src={item.post_url} muted autoPlay loop className='h-full shrink-0 w-full p-1 rounded-full object-cover' />:          <img src={item.post_url} alt="" className='h-full w-full p-1 rounded-full object-cover' />
 }
        </div>

@@ -2,47 +2,64 @@ import React, { useEffect, useState } from 'react'
 import { Useauth } from '../../auth/hooks/auth.hook'
 import { FaBookmark } from "react-icons/fa";
 import { usePost } from '../hooks/post.hook';
-
+import { useNavigate } from 'react-router-dom'
 
 const Save = () => {
+const navigate=useNavigate()
+const{setallpost,allpost,handlegetallpost,savepost}=Useauth()
 
-const{setallpost,allpost,handlegetallpost}=Useauth()
-const [save, setsave] = useState([])
 const {unsaveHandle}=usePost()
 
 useEffect(()=>{
-  const savePost=allpost.filter((item)=>item.save)
-  setsave(savePost)
-
-},[allpost])
+  handlegetallpost()  
+},[])
 
 
   return (
     <>
-      <h1 className='text-6xl px-5 text-center md:text-start font-semibold text-white'>Saved</h1>
-    <div className=' md:w-full w-[80%] m-auto flex flex-wrap gap-1 p-4'>
+      <h1 className='text-6xl px-5 text-center md:text-start font-semibold text-white mb-7'>Saved Post</h1>
+    <div className=' md:w-full w-[100%] grid-cols-2 md:grid-cols-3 grid m-auto gap-1 md:p-4'>
 {
-  save.length>0?(
-    save.map((item)=>{
+  allpost.filter(item => item.save === true).length > 0 ? (
 
-      return(
+    allpost
+      .filter(item => item.save === true)
+      .map((item) => (
+        <section className='relative ' key={item._id}>
 
-    <section className='relative ' key={item._id}>
-      {
-        item.mediatype==="non-image"?<video className='h-69 md:max-w-60 object-cover w-full' src={item.post_url}  autoPlay
-        loop
-        muted
-        />: <img src={item.post_url} className='h-69 md:max-w-60 object-cover w-full' alt="" />
-      }
- 
-  <FaBookmark onClick={()=>unsaveHandle(item._id)} className='absolute top-3 text-white text-3xl right-2'/>
-</section>
-)
+          {
+            item.mediatype === "non-image"
+              ? (
+                <video
+                  onClick={() => navigate(`/feed/${item._id}`)}
+                  className='h-50 md:h-70 object-cover w-full'
+                  src={item.post_url}
+                  autoPlay
+                  loop
+                  muted
+                />
+              )
+              : (
+                <img
+                  onClick={() => navigate(`/feed/${item._id}`)}
+                  src={item.post_url}
+                  className='h-50 md:h-70 object-cover w-full'
+                  alt=""
+                />
+              )
+          }
 
-  })
-):(
-  <p>no saved post Found</p>
-)
+          <FaBookmark
+            onClick={() => unsaveHandle(item._id)}
+            className='absolute top-3 text-white text-3xl right-2'
+          />
+
+        </section>
+      ))
+
+  ) : (
+    <p>No saved post found</p>
+  )
 }
     </div>
   </>

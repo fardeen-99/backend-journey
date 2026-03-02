@@ -42,3 +42,11 @@ export const detailposting=async(id)=>{
     const res=await api.get(`/post/detail/${id}`)
     return res.data
 }
+export const commentposting=async(id,comment)=>{
+    const res=await api.post(`/post/comment/${id}`,{comment:comment})
+    return res.data
+}
+export const update=async(id,formset)=>{
+    const res=await api.put(`/auth/update/${id}`,formset)
+    return res.data
+}

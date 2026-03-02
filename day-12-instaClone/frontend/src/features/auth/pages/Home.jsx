@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Useauth } from '../hooks/auth.hook'
 import { Logout } from '../services/auth.api'
@@ -22,7 +22,7 @@ const navigate=useNavigate()
 const toggle=(id)=>{
   setexpand((prev)=>prev===id?null:id)
 }
-const {user,allpost}=Useauth()
+const {user,allpost,handlegetallpost}=Useauth()
 
 const{likeHandle,unlikeHandle,followHandle,unfollowHandle,saveHandle,unsaveHandle} =usePost()
 
@@ -30,6 +30,10 @@ const{likeHandle,unlikeHandle,followHandle,unfollowHandle,saveHandle,unsaveHandl
 // Logout()
 // navigate("/register")
 // }
+
+useEffect(()=>{
+  handlegetallpost()
+},[])
 const soundsytem=(id)=>{
   if(play===id){
     setplay(null)
@@ -47,20 +51,20 @@ setsound(null)
 {
   allpost.map((item)=>{
     return(
-      <section className='w-full text-xl capitalize font-semibold pb-6    flex flex-col gap-1'>
+      <section key={item._id} className='w-full text-xl capitalize font-semibold pb-6    flex flex-col gap-1'>
 
-      <div className='flex p-3 w-full justify-between items-center text-white'>
-        <div className='flex gap-2 items-center'>
+      <div className='flex pt-3 px-2 pb-2 w-full justify-between items-center text-white'>
+        <div className='flex gap-2 '>
           <img className='h-8 rounded-full w-8' src={item.user.profile_image} alt="" />
           <p>{item.user.username}</p>
         </div>
         <button
         onClick={()=>{item.isfollow?unfollowHandle(item.user._id):followHandle(item.user._id)}}
         
-        className='px-3 py-1 border-2 active:scale-95 transition-all duration-200 ease-in-out capitalize border-amber-50 rounded-lg text-white'>{item.isfollow?"following":"follow"}</button>
+        className='px-3 py-1 text-sm border-2 active:scale-95 transition-all duration-200 ease-in-out capitalize border-amber-50 rounded-lg text-white'>{item.isfollow?"following":"follow"}</button>
       </div>
       <div className='flex flex-col w-full gap-2 h-80 text-white relative'
-      // onClick={()=>navigate(`/feed/${item._id}`)}
+      
       >
 {
   item.mediatype==="non-image"?(
@@ -86,16 +90,21 @@ onClick={()=>{item.islike?unlikeHandle(item._id):likeHandle(item._id)}}
   <p className='text-[12px] px-2'>
 {item.likecount>0?item.likecount:""}
   </p>
-  <FaRegComment/>
+  <FaRegComment
+  onClick={()=>navigate(`/feed/${item._id}`)}
+  />
+  <p className='text-[12px] px-2'>
+{item.commentcount>0?item.commentcount:""}
+  </p>
 </div>
 {item.save?<FaBookmark onClick={()=>unsaveHandle(item._id)}/>:<FaRegBookmark onClick={()=>saveHandle(item._id)}/>}
       </div>
       <div>
-        <p className='px-1 flex items-center gap-2 w-full'>
-          <span className=''><p className='inline text-white font-normal text-lg'>{item.user.username} ...</p>{" "}
-          <p className='text-zinc-500 inline text-sm self-end'>  {
+        <span className='px-1 flex items-center gap-2 w-full'>
+          <span className=''><span className='inline text-white font-normal text-lg'>{item.user.username} ...</span>{" "}
+          <span className='text-zinc-500 inline text-sm self-end'>  {
               item._id===expand?item.caption:item.caption.slice(0,5)
-            }</p>
+            }</span>
           </span >
          {
             item.caption.length>5 &&(
@@ -106,7 +115,7 @@ onClick={()=>{item.islike?unlikeHandle(item._id):likeHandle(item._id)}}
  </span>
             )}
 
-        </p>
+        </span>
       </div>
       </section>
     )

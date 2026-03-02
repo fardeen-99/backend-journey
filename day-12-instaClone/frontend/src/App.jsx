@@ -11,6 +11,7 @@ import Create from './features/post/pages/Create'
 import Save from './features/post/pages/save'
 import Profile from './features/post/pages/Profile'
 import DetailPost from './features/post/pages/DetailPost'
+import Update from './features/post/pages/Update'
 const App = () => {
 
 const router=createBrowserRouter([
@@ -45,6 +46,9 @@ const router=createBrowserRouter([
 },{
   path:"/feed/:id",
   element:<DetailPost/>
+},{
+  path:"/profileUpdate/:id",
+  element:<Update/>
 }
 
 ])

@@ -82,6 +82,13 @@ const likecount=await likemodel.countDocuments({
 item.likecount=likecount
 
 
+const commentcount=await CommentModel.countDocuments({
+    post:item._id
+})
+item.commentcount=commentcount      
+
+
+
  return item
 
 
@@ -109,7 +116,7 @@ const id=req.params.id
 const detailpost=await postModel.findById(id).populate("user","-password").lean()
 
 const postUserId = detailpost._id.toString()
-console.log(postUserId)
+// console.log(postUserId)
 // console.log(decoded.id)
 const verification=await id===postUserId
 
@@ -137,7 +144,7 @@ const commentcount=await CommentModel.countDocuments({
 })
 detailpost.commentcount=commentcount
 
-const comment=await CommentModel.find({post:id})
+const comment=await CommentModel.find({post:id}).populate("user","-password").lean()
 detailpost.comment=comment
 
 
@@ -191,6 +198,7 @@ const {comment}=req.body
 const user=req.user.id
 const post=req.params.id
 
+console.log(comment)
 
 if(!post){
     return res.status(404).json({
