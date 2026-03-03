@@ -9,7 +9,10 @@ import { RiShareForwardLine } from "react-icons/ri";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { usePost } from '../../post/hooks/post.hook';
+import { CiCirclePlus } from "react-icons/ci";
+import StoryHub from '../../post/components/StoryHub';
 
+import { GoPlus } from "react-icons/go";
 
 
 const Home = () => {
@@ -47,7 +50,31 @@ setsound(null)
   return (
     <>
 
-<section className='h-full w-full max-w-80 m-auto  flex flex-col'>
+<nav className='flex justify-between md:hidden items-center p-2 text-white  w-full'>
+  <GoPlus className='text-4xl'/>
+  <img src="/devgram2.png" className='w-full h-20 object-cover' alt="" />
+  <FaRegHeart className='text-2xl'/>
+</nav>
+
+<section className='text-white p-3 pt-0 md:pt-2 md:mt-2 w-full flex gap-3 overflow-y-scroll'>
+  <div className='flex  flex-col gap-1 relative shrink-0'>
+    <img src={user.profile_image} className=' ml-1 h-20 w-20 rounded-full ' alt="" />
+    <span className='text-start w-full text-sm font-semibold'>{user.username.slice(0,10)}
+      <span className='text-start w-full text-sm font-semibold'>{user.username.length>10 &&"..."}</span>
+      </span>
+ <CiCirclePlus className='text-xl absolute bottom-7 left-17 bg-white text-black rounded-full' />
+  </div>
+
+<StoryHub/>
+
+</section>
+
+<section className=' w-full max-w-100 m-auto  flex flex-col '>
+{/* <div className='w-full h-full flex items-center py-3 px-3 justify-between border-b border-zinc-700'>
+  <p className='text-white  '>Suggested for you</p>
+  <p className='text-blue-700  cursor-pointer'>older Post</p>
+  </div> */}
+
 {
   allpost.map((item)=>{
     return(
@@ -63,7 +90,7 @@ setsound(null)
         
         className='px-3 py-1 text-sm border-2 active:scale-95 transition-all duration-200 ease-in-out capitalize border-amber-50 rounded-lg text-white'>{item.isfollow?"following":"follow"}</button>
       </div>
-      <div className='flex flex-col w-full gap-2 h-80 text-white relative'
+      <div className='flex flex-col w-full gap-2 h-100 text-white relative'
       
       >
 {
@@ -90,9 +117,15 @@ onClick={()=>{item.islike?unlikeHandle(item._id):likeHandle(item._id)}}
   <p className='text-[12px] px-2'>
 {item.likecount>0?item.likecount:""}
   </p>
-  <FaRegComment
-  onClick={()=>navigate(`/feed/${item._id}`)}
-  />
+      <svg
+        onClick={()=>navigate(`/feed/${item._id}`)}
+      fill="currentColor" height="20" viewBox="0 0 24 24" width="20">
+                      <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinejoin="round"
+                        strokeWidth="2"></path>
+                    </svg>
   <p className='text-[12px] px-2'>
 {item.commentcount>0?item.commentcount:""}
   </p>

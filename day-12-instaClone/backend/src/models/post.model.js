@@ -21,6 +21,8 @@ user:{
 required:[true,"file is required"]
     }
 
+},{
+    timestamps:true
 })
 
 const postmodel=mongoose.model("post",postSchema)

@@ -1,12 +1,12 @@
 import { useContext } from "react"
 import { Context } from "../post.context"
-import { detailposting, folllow, like, save, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
+import { detailposting, folllow, like, personprofile, save, storiya, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
 import { Useauth } from "../../auth/hooks/auth.hook"
 
 
 export const usePost = () => {
     const { handlegetallpost, fetchUser } = Useauth()
-    const { singlepost, setSinglepost } = useContext(Context)
+    const { singlepost, setSinglepost,story,setStory,userpersonalprofile,setuserpersonalprofile} = useContext(Context)
 
 
     const likeHandle = async (id) => {
@@ -22,10 +22,12 @@ export const usePost = () => {
     const followHandle = async (id) => {
         const res = await folllow(id)
         await handlegetallpost()
+        await personprofileHandle(id)
     }
     const unfollowHandle = async (id) => {
         const res = await unfolllow(id)
         await handlegetallpost()
+        await personprofileHandle(id)
     }
     const uploadHandle = async (formset) => {
         const res = await upload(formset)
@@ -60,7 +62,21 @@ export const usePost = () => {
         const res=await update(id,formset)
         await handlegetallpost()
     }
-    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost,commentHandle,updateHandle })
+    const storyHandle=async()=>{
+        const res=await storiya()
+        setStory(res.user)
+        console.log(res.user)
+    }
+
+
+const personprofileHandle=async(id)=>{
+    const res=await personprofile(id)
+    setuserpersonalprofile(res.user)
+    console.log(res.user)
+}
+
+
+    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost,commentHandle,updateHandle,storyHandle,story,setStory,personprofileHandle,userpersonalprofile,setuserpersonalprofile })
 
 
 }

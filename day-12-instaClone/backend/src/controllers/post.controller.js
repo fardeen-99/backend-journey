@@ -48,7 +48,7 @@ res.status(200).json({
 
 const GetPost=async(req,res)=>{
 
-const allpost=await postModel.find().populate("user","-password").lean()
+const allpost=await postModel.find().populate("user","-password").lean().sort({createdAt:-1})
 
 const final=await Promise.all(allpost.map(async(item)=>{
 

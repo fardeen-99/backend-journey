@@ -1,15 +1,19 @@
 
 import { useNavigate } from 'react-router-dom'
 
-const Post = ({userprofile}) => {
+const Post = ({content}) => {
   const navigate=useNavigate()
 
 
-    
+    if(!content || content.length===0){
+      return(
+        <p className="text-white w-full text-center pt-5 uppercase">no post found</p>
+      )
+    }
   return (
     <div className='w-full  grid grid-cols-3 gap-1'>
       {
-        userprofile.map((item)=>{
+        content.map((item)=>{
           return(
             <div className=' w-full'
             onClick={()=>navigate(`/feed/${item._id}`)}

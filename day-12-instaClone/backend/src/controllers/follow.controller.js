@@ -126,11 +126,76 @@ res.status(200).json({
 
 }
 
-// const useralldetail=async(req,res)=>{
+const StoryRoute=async(req,res)=>{
+
+const userFound=await usermodel.find().lean()
+
+
+const user=await Promise.all(userFound.map(async(item)=>{
+    const isfollow=await followmodel.findOne({
+        follower:req.user.id,
+        followee:item._id
+    })
+
+    item.isfollowing=!!isfollow
+    return item
+}    )
+)
+
+
+res.status(200).json({
+    message:"story",
+    user
+})
+
+}
+
+const PersonProfile=async(req,res)=>{
+    const id=req.params.id
+
+    const post=await postmodel.find({
+        user:id
+    })
+
+    const user=await usermodel.findById(id)
+    if(!user){
+        return res.status(404).json({
+            message:"user not found"
+        })
+    }
+    const follower=await followmodel.countDocuments({
+        followee:id
+    })
+    const following=await followmodel.countDocuments({
+        follower:id
+    })
+    const postcount=await postmodel.countDocuments({
+        user:id
+    })
+
+    const userfollow=await followmodel.findOne({
+        follower:req.user.id,
+        followee:id
+    })
 
 
 
-// }
+    res.status(200).json({
+        user:{
+            email:user.email,
+            username:user.username,
+            bio:user.bio,
+            profile_image:user.profile_image,
+            id:user._id,
+            follower,
+            following,
+            postcount,
+            post,
+            userfollow: !! userfollow
+        }
+    })
+}
 
 
-module.exports={FollowRoute,AcceptRoute,Reject,UnfollowRoute}
+
+module.exports={FollowRoute,AcceptRoute,Reject,UnfollowRoute,StoryRoute,PersonProfile}

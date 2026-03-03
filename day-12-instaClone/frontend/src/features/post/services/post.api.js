@@ -50,3 +50,11 @@ export const update=async(id,formset)=>{
     const res=await api.put(`/auth/update/${id}`,formset)
     return res.data
 }
+export const storiya=async()=>{
+    const res=await api.get(`/user/story`)
+    return res.data
+}
+export const personprofile=async(id)=>{
+    const res=await api.get(`/user/personprofile/${id}`)
+    return res.data
+}
