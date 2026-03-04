@@ -22,7 +22,7 @@ const userSchema=new mongoose.Schema({
     
     profile_image:{
         type:String,
-        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgsaRe2zqH_BBicvUorUseeTaE4kxPL2FmOQ&s",
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3wkBh42q4A0io62WEJtwLmWIrGpBmdV2ddw&s",
     }
 })
 

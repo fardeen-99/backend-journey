@@ -7,11 +7,13 @@ const Post = ({content}) => {
 
     if(!content || content.length===0){
       return(
-        <p className="text-white w-full text-center pt-5 uppercase">no post found</p>
+             <div className='col-span-3 flex justify-center w-full'>
+                    <p className='text-center w-full text-white text-xl font-semibold whitespace-nowrap p-5'>No post found</p>
+                </div>
       )
     }
   return (
-    <div className='w-full  grid grid-cols-3 gap-1'>
+    <div className='w-full   grid grid-cols-3 gap-1'>
       {
         content.map((item)=>{
           return(

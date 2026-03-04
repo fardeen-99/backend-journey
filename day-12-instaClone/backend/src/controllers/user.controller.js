@@ -13,11 +13,18 @@ const image=new ImageKit({
 const Register=async(req,res)=>{
     const {username,email,password,bio}=req.body
 
-    const proilePic=await image.files.upload({
-        file:await toFile(Buffer.from(req.file.buffer),'file'),
-        fileName:req.body.username,
-        folder:"insta-clone-Dp"
-    })
+    let profileImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3wkBh42q4A0io62WEJtwLmWIrGpBmdV2ddw&s"
+
+    // 2️⃣ Agar file aayi tabhi upload karo
+    if (req.file) {
+      const profilePic = await image.files.upload({
+        file: await toFile(Buffer.from(req.file.buffer), 'file'),
+        fileName: username,
+        folder: "insta-clone-Dp"
+      })
+
+      profileImageUrl = profilePic.url
+    }
 
    const ISUSERALREADYEXIST = await usermodel.findOne({
         $or:[
@@ -38,7 +45,7 @@ if(ISUSERALREADYEXIST){
 
 const hash=await bcrypt.hash(password,10)
 const user=await usermodel.create({
-    username,email,bio,profile_image:proilePic.url,password:hash
+    username,email,bio,profile_image:profileImageUrl,password:hash
 })
 
 const token= jwt.sign({

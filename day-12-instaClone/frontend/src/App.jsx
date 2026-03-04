@@ -15,6 +15,7 @@ import Update from './features/post/pages/Update'
 import Usersprofile from './features/post/pages/Usersprofile'
 import Reelsection from './features/post/pages/Reelsection'
 import Search from './features/post/pages/Search'
+import { Error } from './features/post/pages/error'
 const App = () => {
 
 const router=createBrowserRouter([
@@ -28,6 +29,7 @@ const router=createBrowserRouter([
 },{
   path:"/",
   element:<Applayout/>,
+  errorElement:<Error/>,
   children:[
     {
       path:"/",

@@ -12,9 +12,9 @@ const navigate=useNavigate()
       storyHandle()
   }, [])
 
-
+console.log(story)  
   return (
-    <div className=' flex  gap-4 w-full shrink-0'>
+    <div className=' flex  gap-4 w-full shrink-0 overflow-x-scroll'>
 
       {
         story?.filter((item)=>item.username !==user.username).map((item)=>{
@@ -23,7 +23,7 @@ const navigate=useNavigate()
             <div className='flex gap-1 flex-col shrink-0 items-center'
             onClick={()=>navigate(`/personprofile/${item._id}`)}
             >
-              <img src={item.profile_image} className='h-20 w-20 rounded-full ' alt="" />
+              <img src={item.profile_image} className='shrink-0 object-cover h-20 w-20 rounded-full ' alt="" />
               <span className=' w-full text-center text-sm font-semibold'>{item.username.slice(0,10)}
       <span className=' w-full text-center text-sm font-semibold'>{item.username.length>10 &&"..."}</span>
       </span>

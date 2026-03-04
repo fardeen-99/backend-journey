@@ -19,7 +19,7 @@ console.log(userpersonalprofile)
  {userpersonalprofile?(   <div className='max-w-120  py-3'>
 
             <div className='flex gap-5 w-[90%] md:w-[50%] m-auto    text-white mt-8 ' >
-                <img src={userpersonalprofile.profile_image} alt="" className='h-30 w-30 md:h-40 md:w-40 rounded-full object-cover' />
+                <img src={userpersonalprofile.profile_image} alt="" className='shrink-0 h-30 w-30 md:h-40 md:w-40 rounded-full object-cover' />
                 <div className='flex flex-col gap-2 md:gap-4 justify-center'>
 <h1 className='text-2xl md:text-4xl font-semibold uppercase'>{userpersonalprofile.username}</h1>
 
@@ -38,9 +38,9 @@ console.log(userpersonalprofile)
     </div>
 ):(<p>NO profile found</p>)} 
 <div className="w-[90%]  flex  justify-between m-auto  text-white py-3 mt-2  ">
-<button className={userpersonalprofile.userfollow?"text-white py-2 capitalize cursor-pointer bg-zinc-500 text-center w-[49%] rounded-lg":"text-white py-2 capitalize cursor-pointer bg-blue-500 text-center w-[49%] rounded-lg"} onClick={()=>userpersonalprofile.userfollow?unfollowHandle(userpersonalprofile.id):followHandle(userpersonalprofile.id)}>{userpersonalprofile.userfollow?"unfollow":"follow"}</button>
+<button className={userpersonalprofile.userfollow?"text-white py-2 capitalize cursor-pointer bg-zinc-900 text-center w-[49%] rounded-lg":"text-white py-2 capitalize cursor-pointer bg-blue-500 text-center w-[49%] rounded-lg"} onClick={()=>userpersonalprofile.userfollow?unfollowHandle(userpersonalprofile.id):followHandle(userpersonalprofile.id)}>{userpersonalprofile.userfollow?"unfollow":"follow"}</button>
 
-<button className="text-white py-2 capitalize cursor-pointer bg-zinc-500 text-center w-[49%] rounded-lg">Message</button>
+<button className="text-white py-2 capitalize cursor-pointer bg-zinc-900 text-center w-[49%] rounded-lg">Message</button>
 </div>
 <div className='w-[80%]  flex  justify-between m-auto max-w-120 text-white py-3 mt-4 '
 

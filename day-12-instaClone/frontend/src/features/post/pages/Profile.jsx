@@ -5,6 +5,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import Post from '../components/post';
 import Save from '../components/save';
 import Tag from './Tag';
+import { Logout } from '../../auth/services/auth.api';
 const Profile = () => {
 const navigate=useNavigate()
 
@@ -34,10 +35,20 @@ handlegetallpost()
 
   return (
     <>
-{user?(   <div className='max-w-120  py-6'>
+                            
+{user?(   <div className='max-w-120  py-3'>
+<div className=' w-full flex items-end justify-end md:hidden'>
 
-            <div className='flex gap-5 w-[90%] md:w-[50%] m-auto    text-white mt-8 ' >
-                <img src={user.profile_image} alt="" className='h-30 w-30 md:h-40 md:w-40 rounded-full object-cover' />
+                              <button className="w-[30%] py-2 mr-3 bg-zinc-900 rounded-lg text-white font-semibold  "
+                              onClick={()=>{
+                                Logout()
+                                navigate("/login")
+                                
+                              }}
+                              >Logout</button>
+                              </div>
+            <div className='flex gap-5 w-[90%] md:w-[50%] m-auto    text-white mt-3 md:mt-8 ' >
+                <img src={user.profile_image} alt="" className='shrink-0 h-30 w-30 md:h-40 md:w-40 rounded-full object-cover' />
                 <div className='flex flex-col gap-2 md:gap-4 justify-center'>
 <h1 className='text-2xl md:text-4xl font-semibold uppercase'>{user.username}</h1>
 
@@ -46,7 +57,7 @@ handlegetallpost()
 <p className='text-sm md:text-base whitespace-nowrap'>{user.follower} followers</p>
 <p className='text-sm md:text-base whitespace-nowrap'>{user.following} following</p>
 </div>
-<p className='text-sm md:text-base text-zinc-500'>{user.bio}</p>
+<p className='text-sm md:text-base text-zinc-500 text-wrap  '>{user.bio}</p>
                 </div>
             </div>
 
@@ -54,14 +65,16 @@ handlegetallpost()
 
     </div>
 ):(<p>loading...</p>)} 
-<div className='w-[80%] m-auto flex gap-3  text-white pb-6 '>
-  <button className='w-full text-center py-3 rounded-xl bg-zinc-900 active:scale-95 transition-all duration-200'
+<div className='w-[90%] m-auto flex gap-3 mt-3 text-white pb-6 '>
+  <button className='w-full bg-[crimson] text-center py-3 rounded-xl active:scale-95 transition-all duration-200'
   onClick={()=>navigate("/profileUpdate/"+user.id)}
   >Edit Profile</button>
-  <button className='w-full text-center py-3 rounded-xl bg-zinc-900 active:scale-95 transition-all duration-200' >View Archieve</button>
+  <button className='w-full bg-[crimson] text-center py-3 rounded-xl active:scale-95 transition-all duration-200' 
+  onClick={()=>navigate("/save")}
+  >View Archieve</button>
 </div>
 
-<div className='flex overflow-x-scroll py-4 w-[80%] m-auto snap-x snap-mandatory'>
+<div className='flex overflow-x-scroll py-4 w-full px-2 md:w-[80%] m-auto snap-x snap-mandatory'>
   {
     userprofile?.map((item)=>{
       return(

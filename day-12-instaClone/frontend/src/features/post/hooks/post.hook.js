@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Context } from "../post.context"
-import { detailposting, folllow, like, personprofile, save, storiya, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
+import { commentposting, detailposting, folllow, like, personprofile, save, storiya, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
 import { Useauth } from "../../auth/hooks/auth.hook"
 
 
@@ -23,11 +23,13 @@ export const usePost = () => {
         const res = await folllow(id)
         await handlegetallpost()
         await personprofileHandle(id)
+        await storyHandle()
     }
     const unfollowHandle = async (id) => {
         const res = await unfolllow(id)
         await handlegetallpost()
         await personprofileHandle(id)
+        await storyHandle()
     }
     const uploadHandle = async (formset) => {
         const res = await upload(formset)
@@ -54,7 +56,7 @@ export const usePost = () => {
     const commentHandle=async(id,comment)=>{
         const res=await commentposting(id,comment)
         await detailpostHandle(id)
-        await handlegetallpost()
+       
     }
 
 

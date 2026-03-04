@@ -244,7 +244,7 @@ const Aside = () => {
         }
       `}</style>
 
-      <div className="aside-root">
+      <div className="aside-root overflow-y-hidden">
         <div className="logo-wrap">
           <img src="/devgram2.png" alt="" />
         </div>
@@ -266,7 +266,9 @@ const Aside = () => {
         </ul>
 
         <div className="user-footer">
-          <div className="avatar-wrap">
+          <div className="avatar-wrap"
+          onClick={()=>navigate("/profile")}
+          >
             <div className="avatar-glow" />
             <img src={user?.profile_image} alt="" />
           </div>
