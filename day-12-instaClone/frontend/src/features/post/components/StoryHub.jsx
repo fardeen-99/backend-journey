@@ -14,7 +14,7 @@ const navigate=useNavigate()
 
 console.log(story)  
   return (
-    <div className=' flex  gap-4 w-full shrink-0 overflow-x-scroll'>
+    <div className=' flex  gap-4 w-full shrink-0'>
 
       {
         story?.filter((item)=>item.username !==user.username).map((item)=>{

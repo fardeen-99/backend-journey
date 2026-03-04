@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Context } from "../post.context"
-import { commentposting, detailposting, folllow, like, personprofile, save, storiya, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
+import { commentposting, detailposting, feedback, folllow, like, personprofile, save, storiya, unfolllow, unlike, unsave, update, upload } from "../services/post.api"
 import { Useauth } from "../../auth/hooks/auth.hook"
 
 
@@ -77,8 +77,12 @@ const personprofileHandle=async(id)=>{
     console.log(res.user)
 }
 
+const HandleFeedBack=async(name,message)=>{
+  const res=await feedback(name,message)
+  console.log(res)
+}
 
-    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost,commentHandle,updateHandle,storyHandle,story,setStory,personprofileHandle,userpersonalprofile,setuserpersonalprofile })
+    return ({ likeHandle, unlikeHandle, followHandle, unfollowHandle, uploadHandle, saveHandle, unsaveHandle, detailpostHandle, setSinglepost, singlepost,commentHandle,updateHandle,storyHandle,story,setStory,personprofileHandle,userpersonalprofile,setuserpersonalprofile,HandleFeedBack })
 
 
 }

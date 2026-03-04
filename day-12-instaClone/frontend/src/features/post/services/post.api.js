@@ -58,3 +58,7 @@ export const personprofile=async(id)=>{
     const res=await api.get(`/user/personprofile/${id}`)
     return res.data
 }
+export const feedback=async(name,message)=>{
+   const res= await api.post("/feedback",{name,feedback:message})
+   return res.data
+}

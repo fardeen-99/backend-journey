@@ -16,6 +16,8 @@ import Usersprofile from './features/post/pages/Usersprofile'
 import Reelsection from './features/post/pages/Reelsection'
 import Search from './features/post/pages/Search'
 import { Error } from './features/post/pages/error'
+import Buycoffee from './features/post/pages/Buycoffee'
+import BuyMeACoffee from './features/post/pages/Buycoffee'
 const App = () => {
 
 const router=createBrowserRouter([
@@ -65,7 +67,10 @@ const router=createBrowserRouter([
   path:"/profileUpdate/:id",
   element:<Update/>
 }
-
+,{
+  path:"/buy_A_coffee",
+  element:<BuyMeACoffee/>
+}
 ])
 
 

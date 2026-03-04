@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Useauth } from '../hooks/auth.hook'
 import { Logout } from '../services/auth.api'
@@ -51,6 +51,21 @@ const Home = () => {
 
     }
   }
+  const scrollRef = useRef(null)
+
+const scrollRight = () => {
+  scrollRef.current.scrollBy({
+    left: 200,
+    behavior: "smooth"
+  })
+}
+
+const scrollLeft = () => {
+  scrollRef.current.scrollBy({
+    left: -200,
+    behavior: "smooth"
+  })
+}
   return (
     <>
 
@@ -59,11 +74,17 @@ const Home = () => {
           onClick={() => navigate("/create")}
         />
         <img src="/devgram2.png" className='w-full h-15 object-cover devgram' alt="" />
-        <FaRegHeart className='text-2xl' />
+        <FaRegHeart className='text-2xl' 
+        onClick={()=>navigate("/buy_A_coffee")}
+        />
       </nav>
 
-      <section className='text-white p-3 mt-2 pt-0 md:pt-2 md:mt-2 w-full flex gap-3 overflow-x-scroll'>
-        <div className='flex  flex-col gap-1 relative shrink-0 overflow-x-scroll'
+      <section 
+        ref={scrollRef}
+      className='text-white p-3 mt-2  
+      transform relative
+      pt-0 md:pt-2 md:mt-2 w-full flex gap-3 overflow-x-scroll'>
+        <div className='flex  flex-col gap-1 relative shrink-0 '
         onClick={()=>navigate(`/profile`)}
         >
           <img src={user.profile_image} className='shrink-0 ml-1 h-20 w-20 object-cover rounded-full ' alt="" />
@@ -74,8 +95,20 @@ const Home = () => {
         </div>
 
         <StoryHub />
-
       </section>
+        <button
+  onClick={scrollLeft}
+  className="text-white absolute md:block hidden left-0 top-10  bg-gray-800/50 px-1 rounded shrink-0"
+>
+←
+</button>
+
+<button
+  onClick={scrollRight}
+  className="text-white absolute md:block hidden right-0 top-10  bg-gray-800/50 px-3 rounded shrink-0"
+>
+  →
+</button>
 
       <section className=' w-full max-w-120 md:max-w-100 m-auto  flex flex-col '>
         {/* <div className='w-full h-full flex items-center py-3 px-3 justify-between border-b border-zinc-700'>
@@ -89,7 +122,7 @@ const Home = () => {
               <section key={item._id} className='w-full text-xl capitalize font-semibold pb-6    flex flex-col gap-1'>
 
                 <div className='flex pt-3 px-2 pb-2 w-full justify-between items-center text-white'>
-                  <div className='flex gap-2 '
+                  <div className='flex gap-2 items-center '
                   onClick={()=>navigate(`/personprofile/${item.user._id}`)}
                   >
                     <img className='h-8 rounded-full w-8 ' src={item.user.profile_image} alt="" />
