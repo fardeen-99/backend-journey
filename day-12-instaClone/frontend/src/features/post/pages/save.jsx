@@ -18,7 +18,7 @@ const Save = () => {
   return (
     <>
       <h1 className='text-6xl px-5 text-center md:text-start font-semibold text-white mb-7'>Saved Post</h1>
-      <div className=' md:w-full max-w-300 grid-cols-2 md:grid-cols-3 grid m-auto gap-1 md:p-4'>
+      <div className=' md:w-full max-w-300 grid-cols-2 xl:grid-cols-4 md:grid-cols-3 grid m-auto gap-1 md:p-4'>
         {
           allpost.filter(item => item.save === true).length > 0 ? (
 

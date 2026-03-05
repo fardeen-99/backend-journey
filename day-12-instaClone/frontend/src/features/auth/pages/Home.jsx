@@ -69,12 +69,12 @@ const scrollLeft = () => {
   return (
     <>
 
-      <nav className='flex justify-between md:hidden items-center mt-2 p-2 text-white  w-full'>
+      <nav className='flex justify-between md:hidden items-center mt-1 p-2 text-white  w-full'>
         <GoPlus className='text-4xl'
           onClick={() => navigate("/create")}
         />
         <img src="/devgram2.png" className='w-full h-15 object-cover devgram' alt="" />
-        <FaRegHeart className='text-2xl' 
+        <FaRegHeart className='text-2xl mr-1' 
         onClick={()=>navigate("/buy_A_coffee")}
         />
       </nav>
@@ -125,7 +125,7 @@ const scrollLeft = () => {
                   <div className='flex gap-2 items-center '
                   onClick={()=>navigate(`/personprofile/${item.user._id}`)}
                   >
-                    <img className='h-8 rounded-full w-8 ' src={item.user.profile_image} alt="" />
+                    <img className='h-8 rounded-full w-8 shrink-0' src={item.user.profile_image} alt="" />
                     <p>{item.user.username}</p>
                   </div>
                   <button

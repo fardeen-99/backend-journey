@@ -1,4 +1,5 @@
 const jwt=require("jsonwebtoken")
+const redis=require("../config/Cache")
 const IdentifyToken=async(req,res,next)=>{
 
 const token=req.cookies.token
@@ -6,6 +7,14 @@ const token=req.cookies.token
 if(!token){
     return res.status(401).json({
         message:"UnAuthorised Access"
+    })
+}
+
+const IsBlacklist=await redis.get(token)
+
+if(IsBlacklist){
+    return res.status(401).json({
+        message:"invalid Token"
     })
 }
 

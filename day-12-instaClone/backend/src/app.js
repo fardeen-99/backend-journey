@@ -1,13 +1,14 @@
+require("dotenv").config()
 const express=require("express")
 const authRouter=require("./routes/auth.routes")
 const postRouter=require("./routes/post.routes")
 const UserFollowRouter=require("./routes/user.routes")
 const feedbackRouter=require("./routes/feedback.routes")
 const cookie=require("cookie-parser")
+
 const cors=require("cors")
 
 const app=express()
-require("dotenv").config()
 
 app.use(cors({
 credentials:true,

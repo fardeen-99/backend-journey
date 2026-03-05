@@ -103,7 +103,7 @@ const Reelsection = () => {
   }
 
   return (
-    <div className="w-full max-w-100 m-auto  h-screen  overflow-y-scroll snap-y snap-mandatory scroll-smooth flex flex-col relative">
+    <div className="w-full max-w-100 m-auto xl:max-w-250 h-screen  overflow-y-scroll snap-y snap-mandatory scroll-smooth flex flex-col relative">
 
       {
         allpost?.filter((post) => post.mediatype === "non-image").map((item) => {
@@ -116,7 +116,7 @@ const Reelsection = () => {
               {/* User Info */}
               <div className='flex pt-3 px-2 pb-2 w-full flex-col absolute md:bottom-3 bottom-16 z-99 gap-2 text-white'>
                 <div className='flex gap-2 items-center cursor-pointer transition-all'>
-                  <img className='h-8 rounded-full w-8' src={item.user.profile_image} alt="" />
+                  <img className='h-8 rounded-full w-8 shrink-0' src={item.user.profile_image} alt="" />
                   <p>{item.user.username}</p>
 
                 <button

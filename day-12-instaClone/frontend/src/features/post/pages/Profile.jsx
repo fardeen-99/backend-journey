@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { FaRegBookmark } from "react-icons/fa";
 import Post from '../components/post';
 import Save from '../components/save';
+import { FaRegHeart } from "react-icons/fa";
 import Tag from './Tag';
 import { Logout } from '../../auth/services/auth.api';
 const Profile = () => {
@@ -35,8 +36,8 @@ handlegetallpost()
 
   return (
     <>
-                            
 {user?(   <div className='max-w-120  py-3'>
+                    <FaRegHeart className=' text-white text-2xl md:block hidden'/>        
 <div className=' w-full flex items-end justify-end md:hidden'>
 
                               <button className="w-[30%] py-2 mr-3 bg-zinc-900 rounded-lg text-white font-semibold  "

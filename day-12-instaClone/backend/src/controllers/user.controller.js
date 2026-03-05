@@ -5,6 +5,7 @@ const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const ImageKit=require("@imagekit/nodejs")
 const {toFile}=require("@imagekit/nodejs")
+const redis=require("../config/Cache")
 const image=new ImageKit({
     privateKey:"private_8xoNZmFx5vHtoHsbTFvyTqNIdQQ="
 })
@@ -126,11 +127,18 @@ id:user._id
 
 }
 
+
 const Logout=async(req,res)=>{
+    const token=req.cookies.token
     res.clearCookie("token")
+
+   await redis.set(token,Date.now().toString(),"EX",60*60)
     res.status(200).json({
         message:"logout successfully"
     })
+   
+
+
 
 }
 const Getme=async(req,res)=>{

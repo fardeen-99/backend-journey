@@ -20,7 +20,9 @@ console.log(story)
         story?.filter((item)=>item.username !==user.username).map((item)=>{
           return(
             <>
-            <div className='flex gap-1 flex-col shrink-0 items-center'
+            <div
+            key={item._id}
+            className='flex gap-1 flex-col shrink-0 items-center'
             onClick={()=>navigate(`/personprofile/${item._id}`)}
             >
               <img src={item.profile_image} className='shrink-0 object-cover h-20 w-20 rounded-full ' alt="" />

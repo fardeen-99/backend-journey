@@ -20,7 +20,7 @@ const Post = ({content}) => {
             <div className=' w-full'
             onClick={()=>navigate(`/feed/${item._id}`)}
             >
-          {item.mediatype==="non-image"?<video src={item.post_url} muted autoPlay loop className='min-w-full h-40 md:h-80 object-cover' />:          <img src={item.post_url} alt="" className='min-w-full h-40 md:h-80 object-cover' />
+          {item.mediatype==="non-image"?<video src={item.post_url} muted autoPlay loop className='min-w-full h-40 md:h-80 xl:h-130 object-cover' />:          <img src={item.post_url} alt="" className='min-w-full h-40 md:h-80 xl:h-130 object-cover' />
 }
        </div>
             
