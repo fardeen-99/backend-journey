@@ -1,0 +1,64 @@
+import axios from 'axios'
+
+const api=axios.create({
+    baseURL:"http://localhost:3000/api"
+    ,withCredentials:true
+})
+
+
+
+
+
+export const like=async(id)=>{
+  const res=  await api.post(`/post/like/${id}`)
+  return res.data
+}
+export const unlike=async(id)=>{
+  const res=  await api.post(`/post/unlike/${id}`)
+  return res.data
+}
+
+export const folllow=async(id)=>{
+    const res=await api.post(`/user/follow/${id}`)
+    return res.data
+}
+export const unfolllow=async(id)=>{
+    const res=await api.post(`/user/unfollow/${id}`)
+    return res.data
+}
+export const upload=async(formset)=>{
+    const res=await api.post('/post',formset)
+    return res.data
+}
+export const save=async(id)=>{
+    const res=await api.post(`/post/save/${id}`)
+    return res.data
+}
+export const unsave=async(id)=>{
+    const res=await api.post(`/post/unsave/${id}`)
+    return res.data
+}
+export const detailposting=async(id)=>{
+    const res=await api.get(`/post/detail/${id}`)
+    return res.data
+}
+export const commentposting=async(id,comment)=>{
+    const res=await api.post(`/post/comment/${id}`,{comment:comment})
+    return res.data
+}
+export const update=async(id,formset)=>{
+    const res=await api.put(`/auth/update/${id}`,formset)
+    return res.data
+}
+export const storiya=async()=>{
+    const res=await api.get(`/user/story`)
+    return res.data
+}
+export const personprofile=async(id)=>{
+    const res=await api.get(`/user/personprofile/${id}`)
+    return res.data
+}
+export const feedback=async(name,message)=>{
+   const res= await api.post("/feedback",{name,feedback:message})
+   return res.data
+}
