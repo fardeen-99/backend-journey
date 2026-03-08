@@ -1,17 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Moodify from './features/Expression/components/Moodify'
+  import { createBrowserRouter,RouterProvider } from "react-router-dom";
+import Login from  "./features/auth/pages/login";
+import Register from "./features/auth/pages/Register";
+import Protected from "./features/auth/pages/Protected";
+import Moodify from "./features/Expression/components/Moodify";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-<Moodify/>
-    </>
-  )
+
+
+ const router=createBrowserRouter([
+    {
+        path:"/login",
+        element:<Login/>
+    },
+    {
+        path:"/register",
+        element:<Register/>
+    },
+    {
+        path:"/",
+        element:<Protected>
+            <Moodify/>
+        </Protected>
+    }
+])
+
+return(
+    <RouterProvider router={router}/>
+)
 }
 
 export default App
