@@ -6,7 +6,11 @@ const SongSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    Song_url:{
+    artist:{
+        type:String,
+        required:true
+    },
+    song_url:{
         type:String,
         required:true
     },
