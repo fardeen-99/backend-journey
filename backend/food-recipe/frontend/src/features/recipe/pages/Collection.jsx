@@ -4,10 +4,16 @@ import { useNavigate } from "react-router-dom"
 
 const Collection=()=>{
 const navigate=useNavigate()
-    const {recipe,getAllRecipe}=useRecipe()
+    const {recipe,getAllRecipe,loading}=useRecipe()
     useEffect(()=>{
         getAllRecipe()
     },[])
+    if(loading){
+console.log("hello")
+   return(     <div className="h-full w-full flex items-center justify-center bg-red-900">
+<h1 className="text-3xl font-bold">loading.....</h1>
+        </div>)
+    }
     // console.log(recipe)
     return(
         <div className=" m-auto flex  w-[80%] m-auto lg:w-full flex-col min-h-full lg:flex-row gap-10  p-6">

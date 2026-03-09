@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { useRecipe } from "../hooks/recipe.hook"
+import { useNavigate } from "react-router-dom"
 
 const CreateRecipe=()=>{
+    const navigate = useNavigate()
 const {getRecipe,getAllRecipe}=useRecipe()
     const [file,setFile]=useState(null)
     const [form,setform]=useState({
@@ -31,6 +33,15 @@ formData.append("form",JSON.stringify(form))
 const res=await getRecipe(formData)
 console.log(res)
 getAllRecipe()
+setform({
+            ingredients:"",
+        recipe:"",
+        chef:"",
+        category:"",
+        dishName:""
+})
+setFile(null)
+navigate("/collection")
     // toast.success("Recipe created successfully")
 
     }

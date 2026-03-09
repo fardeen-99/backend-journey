@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom"
 
 const SingleRecipe=()=>{
    const {id}=useParams()
-const {GetSingleRecipe,singleRecipe,getToknowfvrt,fvrt,handleFvrt,handleUnFvrt,postdelete}=useRecipe()
+const {GetSingleRecipe,singleRecipe,getToknowfvrt,fvrt,handleFvrt,handleUnFvrt,postdelete,loading}=useRecipe()
 const navigate=useNavigate()
    useEffect(()=>{
     GetSingleRecipe(id)
-   },[])
-console.log(fvrt)
+   },[id])
+// console.log(fvrt)
 
 
 const postkarodelete=(id)=>{
@@ -20,6 +20,13 @@ const postkarodelete=(id)=>{
     postdelete(id)
     navigate("/collection")
 }
+
+    if(loading){
+        console.log("hello")
+   return(     <div className="h-full w-full flex items-center justify-center bg-red-900">
+<h1 className="text-3xl font-bold">loading.....</h1>
+        </div>)
+    }
 
 // console.log(singleRecipe)
     return(

@@ -4,72 +4,111 @@ import { addTOfvrt, fvrtdlt, getfvrt, recipepost, RecipeUpdae, singleRecipeDelet
 import { getallRecipe } from "../services/recipe.api";
 import { getSingleRecipe } from "../services/recipe.api";
 
-export const useRecipe=()=>{
-    const {recipe,setRecipe,singleRecipe,setSingleRecipe,fvrt,setFvrt}=useContext(RecipeContext)
-    
-const getRecipe=async(data)=>{
-    const response=await recipepost(data)
-    // console.log(response)
+export const useRecipe = () => {
+    const { recipe, setRecipe, singleRecipe, setSingleRecipe, fvrt, setFvrt, loading, setloading } = useContext(RecipeContext)
+
+    const getRecipe = async (data) => {
+        try {
+            setloading(true)
+            const response = await recipepost(data)
+            // console.log(response)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+    }
+
+
+    const getAllRecipe = async (showloader=true) => {
+
+        try {
+          if(showloading)  setloading(true)
+            const response = await getallRecipe()
+            setRecipe(response.recipes)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+        // console.log(response)
+    }
+
+    const GetSingleRecipe = async (id,showloader=true) => {
+
+        try {
+           if(showloader)setloading(true)
+            const response = await getSingleRecipe(id)
+            setSingleRecipe(response.single)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+
+        // console.log(response.single)
+    }
+
+const getToknowfvrt = async () => {
+    try {
+        const res = await getfvrt()
+        return res.favourite
+    } catch (error) {
+        console.log(error)
+    }
+}
+const handleFvrt = async (id) => {
+    try {
+        await addTOfvrt(id)
+        await GetSingleRecipe(id,false)
+        await getToknowfvrt()
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-
-const getAllRecipe=async()=>{
-    const response=await getallRecipe()
-    setRecipe(response.recipes)
-    // console.log(response)
+const handleUnFvrt = async (id) => {
+    try {
+        await unfvrt(id)
+        await GetSingleRecipe(id,false)
+        await getToknowfvrt()
+    } catch (error) {
+        console.log(error)
+    }
 }
-
-const GetSingleRecipe=async(id)=>{
-    const response=await getSingleRecipe(id)
-    setSingleRecipe(response.single)
-    // console.log(response.single)
+const handlefvrtdlt = async (id) => {
+    try {
+        await fvrtdlt(id)
+        await getToknowfvrt()
+    } catch (error) {
+        console.log(error)
+    }
 }
-
-const getToknowfvrt=async()=>{
-    const res=await getfvrt()
-    // setFvrt(res.favourite)
-    // console.log(res.favourite)
-    return res.favourite
-}
-
-const handleFvrt=async(id)=>{
-    // console.log("pelo");
-
-    const res=await addTOfvrt(id)
-   await GetSingleRecipe(id)
- 
-    await getToknowfvrt()
-    // console.log(res)
-}
-
-const handleUnFvrt=async(id)=>{
-    console.log("hello");
-    
-    const res=await unfvrt(id)
-   await GetSingleRecipe(id)
-    await getToknowfvrt()
-    // console.log(res)
-}
-
-const handlefvrtdlt=async(id)=>{
-
-    await fvrtdlt(id)
-    await getToknowfvrt()
-}
-
-const postdelete=async(id)=>{
-    const res=await singleRecipeDelete(id)
-    await getAllRecipe()
-}
+    const postdelete = async (id) => {
+        try {
+            setloading(true)
+            const res = await singleRecipeDelete(id)
+            await getAllRecipe()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+    }
 
 
-const handleRecipeUpdate=async(id,form)=>{
-    const res=await RecipeUpdae(id,form)
-    await GetSingleRecipe(id)
-    await getAllRecipe()
+    const handleRecipeUpdate = async (id, form) => {
+        try {
+            setloading(true)
+            const res = await RecipeUpdae(id, form)
+            await GetSingleRecipe(id)
+            await getAllRecipe()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setloading(false)
+        }
+    }
 
-
-}
-
-return{getRecipe,setRecipe,recipe,getAllRecipe,GetSingleRecipe,singleRecipe,getToknowfvrt,handleFvrt,handleUnFvrt,handlefvrtdlt,postdelete,handleRecipeUpdate}
+    return { getRecipe, setRecipe, recipe, getAllRecipe, GetSingleRecipe, singleRecipe, getToknowfvrt, handleFvrt, handleUnFvrt, handlefvrtdlt, postdelete, handleRecipeUpdate, loading }
 }
