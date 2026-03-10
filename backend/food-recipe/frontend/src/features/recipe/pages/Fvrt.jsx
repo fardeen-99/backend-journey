@@ -9,12 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 const Fvrt=()=>{
 
 
-const {getToknowfvrt,fvrt,handlefvrtdlt}=useRecipe()
-const [favourite,setfavourite]=useState()
+const {getToknowfvrt,fvrt,handlefvrtdlt,favourite,setfavourite}=useRecipe()
+
 const fvrthandle=async()=>{
     const res=await getToknowfvrt()
-  const filterres= res.filter((item)=>item.isfvrt)
-   setfavourite(filterres)
 }
 
 useEffect(()=>{
@@ -22,6 +20,15 @@ useEffect(()=>{
 },[favourite])
  
 const navigate=useNavigate()
+
+
+if(!favourite || favourite.length===0){
+    return(
+           <div className="w-full h-screen flex items-center justify-center">
+                        <h2 className="text-2xl font-semibold text-slate-600">No Favourite Found</h2>
+                    </div>
+    )
+}
 
 // console.log(fvrt)
 
@@ -42,7 +49,7 @@ transition={Bounce}
 />
         <div className=" w-[80%] m-auto lg:w-full  min-h-screen flex lg:flex-wrap gap-10 p-6 mt-6 mb-10 flex-col lg:flex-row">
 
-            {favourite?.map((item)=>{
+            {favourite.map((item)=>{
                     return(
                         <div key={item._id} className="h-[250px] relative rounded-xl w-[250px] max-w-[350px]" 
                        

@@ -5,7 +5,7 @@ import { getallRecipe } from "../services/recipe.api";
 import { getSingleRecipe } from "../services/recipe.api";
 
 export const useRecipe = () => {
-    const { recipe, setRecipe, singleRecipe, setSingleRecipe, fvrt, setFvrt, loading, setloading } = useContext(RecipeContext)
+    const {favourite,setfavourite, recipe, setRecipe, singleRecipe, setSingleRecipe, fvrt, setFvrt, loading, setloading } = useContext(RecipeContext)
 
     const getRecipe = async (data) => {
         try {
@@ -20,7 +20,7 @@ export const useRecipe = () => {
     }
 
 
-    const getAllRecipe = async (showloader=true) => {
+    const getAllRecipe = async (showloading=true) => {
 
         try {
           if(showloading)  setloading(true)
@@ -52,7 +52,11 @@ export const useRecipe = () => {
 const getToknowfvrt = async () => {
     try {
         const res = await getfvrt()
-        return res.favourite
+        console.log(res)
+
+          const filterres= res.favourite.filter((item)=>item.isfvrt)
+           setfavourite(filterres)
+           
     } catch (error) {
         console.log(error)
     }
@@ -110,5 +114,5 @@ const handlefvrtdlt = async (id) => {
         }
     }
 
-    return { getRecipe, setRecipe, recipe, getAllRecipe, GetSingleRecipe, singleRecipe, getToknowfvrt, handleFvrt, handleUnFvrt, handlefvrtdlt, postdelete, handleRecipeUpdate, loading }
+    return { getRecipe, setRecipe, recipe, getAllRecipe, GetSingleRecipe, singleRecipe, getToknowfvrt, handleFvrt, handleUnFvrt, handlefvrtdlt, postdelete, handleRecipeUpdate, loading ,favourite,setfavourite}
 }

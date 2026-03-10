@@ -157,7 +157,9 @@ await fvrtmodel.findByIdAndDelete(isAvailable._id)
 
 const getfvrt=async(req,res)=>{
 
-   const ans=await recipeModel.find().lean()
+   const ans=await recipeModel.find({
+    user:req.user.id
+   }).lean()
    
    
    

@@ -12,8 +12,9 @@ export const RecipeProvider=({children})=>{
     const [singleRecipe,setSingleRecipe]=useState([])
     const [fvrt,setFvrt]=useState([])
     const [loading,setloading]=useState(true)
+    const [favourite,setfavourite]=useState()
     return(
-        <RecipeContext.Provider value={{recipe,setRecipe,singleRecipe,setSingleRecipe,fvrt,setFvrt,loading,setloading}}>
+        <RecipeContext.Provider value={{favourite,setfavourite,recipe,setRecipe,singleRecipe,setSingleRecipe,fvrt,setFvrt,loading,setloading}}>
             {children}
         </RecipeContext.Provider>
     )

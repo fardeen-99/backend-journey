@@ -14,7 +14,7 @@ const {getRecipe,getAllRecipe}=useRecipe()
         dishName:""
     })
 
-
+const [upload,setupload]=useState(false)
 const sethandler=(e)=>{
     const {name,value}=e.target
     setform((prev)=>({
@@ -24,6 +24,7 @@ const sethandler=(e)=>{
 }
     const handleSubmit=async(e)=>{
         e.preventDefault()
+        setupload(true)
 
        const formData=new FormData()
 formData.append("file",file)
@@ -42,24 +43,29 @@ setform({
 })
 setFile(null)
 navigate("/collection")
+setupload(false)
     // toast.success("Recipe created successfully")
 
     }
     return(
         <div className="pt-10 h-full w-full bg-[url(https://eastafricachef.gumlet.io/wp-content/uploads/2025/02/top-view-food-ingredients.jpg?compress=true)] bg-cover bg-no-repeat ">
             <form onSubmit={handleSubmit} className="w-[80%] m-auto max-h-[80vh] max-w-150 flex flex-col bg-black/40 gap-4 text-lg">
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="file" name="" id=""  onChange={(e)=>setFile(e.target.files[0])} />
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" placeholder="//dishName" name="dishName"  required value={form.dishName} onChange={(e)=>sethandler(e)}  />
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" placeholder="//ingredients" name="ingredients"  required value={form.ingredients} onChange={(e)=>sethandler(e)}  />
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="file" name="" id="" 
+                required
+                onChange={(e)=>setFile(e.target.files[0])} />
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" required    placeholder="//dishName" name="dishName"   value={form.dishName} onChange={(e)=>sethandler(e)}  />
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" required placeholder="//ingredients" name="ingredients"   value={form.ingredients} onChange={(e)=>sethandler(e)}  />
                 <textarea rows={4} cols={30} className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" placeholder="//recipe" name="recipe" required value={form.recipe} onChange={(e)=>sethandler(e)}  />
-                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" placeholder="//chef" name="chef" required value={form.chef} onChange={(e)=>sethandler(e)}  />
+                <input className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none  px-3" type="text" required placeholder="//chef" name="chef"   value={form.chef} onChange={(e)=>sethandler(e)}  />
                 <select className="w-full p-4 text-white border border-gray-300 placeholder:text-gray-300 rounded outline-none bg-transparent px-3" name="category" id="" value={form.category} onChange={(e)=>sethandler(e)}>
                     <option className="bg-gray-800 text-white" value="">Select Category</option>
                     <option className="bg-gray-800 text-white" value="breakfast">Breakfast</option>
                     <option className="bg-gray-800 text-white" value="lunch">Lunch</option>
                     <option className="bg-gray-800 text-white" value="dinner">Dinner</option>
                 </select>
-                <button type="submit" className="w-full h-15 md:h-25 border border-gray-300 rounded outline-none px-3 bg-yellow-500 font-semibold text-white hover:bg-yellow-600 transition-all duration-300 active:scale-90">Create Recipe</button>
+                <button type="submit" 
+                disabled={upload}
+                className={upload?"w-full h-15 md:h-25 border border-gray-300 rounded outline-none px-3 bg-yellow-500/50 font-semibold text-white hover:bg-yellow-600/50 transition-all duration-300 active:scale-90":"w-full h-15 md:h-25 border border-gray-300 rounded outline-none px-3 bg-yellow-500 font-semibold text-white hover:bg-yellow-600 transition-all duration-300 active:scale-90"}>Create Recipe</button>
             </form>
         </div>
     )

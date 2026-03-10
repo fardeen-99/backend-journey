@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useRecipe } from "../hooks/recipe.hook"
 import { useNavigate } from "react-router-dom"
+import { Loading } from "./Loader"
 
 const Collection=()=>{
 const navigate=useNavigate()
@@ -9,15 +10,22 @@ const navigate=useNavigate()
         getAllRecipe()
     },[])
     if(loading){
-console.log("hello")
-   return(     <div className="h-full w-full flex items-center justify-center bg-red-900">
-<h1 className="text-3xl font-bold">loading.....</h1>
-        </div>)
+return <Loading/>
+
     }
+
+if(!recipe || recipe.length===0){
+    return(
+           <div className="w-full h-screen flex items-center justify-center">
+                        <h2 className="text-2xl font-semibold text-slate-600">No collection available</h2>
+                    </div>
+    )
+}
+
     // console.log(recipe)
     return(
         <div className=" m-auto flex  w-[80%] m-auto lg:w-full flex-col min-h-full lg:flex-row gap-10  p-6">
-                 {recipe.map((item)=>{
+               {recipe.map((item)=>{
                      return(
                         <section key={item._id} 
                         onClick={()=>navigate(`/collection/${item._id}`)}
