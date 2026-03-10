@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express=require("express")
 const Usermodel=require("./model/auth.model")
 const Identifier=require("./middleware/auth.middleware")
@@ -7,12 +8,11 @@ const cookieparser=require("cookie-parser")
 const cors=require("cors")
 
 const app=express()
-require("dotenv").config()
 app.use(cookieparser())
 app.use(express.json())
 app.use(cors({
-    credentials:true,
-    origin:"https://food-recipe-web.onrender.com"
+    origin:"https://food-recipe-web.onrender.com",
+    credentials:true
 }))
 app.use(express.static("public"))
 app.use("/api/auth",authRouter)
