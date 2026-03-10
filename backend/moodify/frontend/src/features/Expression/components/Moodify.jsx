@@ -10,7 +10,7 @@ const Moodify = () => {
   const [faceLandmarker, setFaceLandmarker] = useState(null);
   const [isDetecting, setIsDetecting] = useState(false);
 
-  const { handlegetsong, setMood } = useExpression();
+  const { handlegetsong, setMood,handlegetusersong } = useExpression();
 
   // Initialize mediapipe
   useEffect(() => {
@@ -108,7 +108,12 @@ const Moodify = () => {
         const moodDetected = detectMood(results.faceBlendshapes[0]);
         setLocalMood(moodDetected);
         setMood(moodDetected);
-        await handlegetsong(moodDetected);
+
+        await Promise.all([
+          handlegetsong(moodDetected),
+          handlegetusersong(moodDetected),
+        ]);
+
       }
     } catch (err) {
       console.error("Detection error:", err);
@@ -125,7 +130,7 @@ const Moodify = () => {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-200">
+    <div className="flex flex-col h-full min-h-100">
       {/* Title */}
       <div className="text-center mb-3">
         <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
@@ -135,7 +140,7 @@ const Moodify = () => {
       </div>
 
       {/* Camera */}
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden  shadow-lg border border-white/10 bg-black/50 mb-3">
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden min-h-100   shadow-lg border border-white/10 bg-black/50 mb-3">
         <video
           ref={videoRef}
           className="w-full h-full object-cover transform -scale-x-100"

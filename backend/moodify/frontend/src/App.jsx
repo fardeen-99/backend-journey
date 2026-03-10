@@ -3,6 +3,7 @@ import Login from "./features/auth/pages/login";
 import Register from "./features/auth/pages/Register";
 import Protected from "./features/auth/pages/Protected";
 import Player from "./features/Expression/pages/Player";
+import Upload from "./features/Expression/pages/Upload";
 
 function App() {
 
@@ -19,6 +20,12 @@ function App() {
             path: "/",
             element: <Protected>
                 <Player />
+            </Protected>
+        },
+        {
+            path: "/upload",
+            element: <Protected>
+                <Upload />
             </Protected>
         }
     ])

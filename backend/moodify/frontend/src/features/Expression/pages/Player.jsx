@@ -2,22 +2,31 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { ExpressionContext } from "../expression.context";
 import Moodify from "../components/Moodify";
 import { useExpression } from "../hooks/expression.hook";
+import { useNavigate } from "react-router-dom";
 
 const Player = () => {
-    const { song, mood,handlegetsong } = useExpression();
+    const navigate = useNavigate()
+    const { song, mood, handlegetsong, handlegetusersong, usersong } = useExpression();
     const audioRef = useRef(null);
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(0.8);
 
-//     useEffect(()=>{
-// handlegetsong("happy")
-//     },[])
+useEffect(() => {
+  if (song.length === 0) {
+    handlegetsong("defaulter");
+  }
+}, [song]);
 
-    const currentSong = song?.[currentIndex];
+    const safeSong = Array.isArray(song) ? song : [];
+    const safeUserSong = Array.isArray(usersong) ? usersong : [];
+
+    const allSongs = [...safeSong, ...safeUserSong];
+    const generalCount = safeSong.length;
+    const currentSong = allSongs[currentIndex];
 
     // Auto-play when switching songs
     useEffect(() => {
@@ -32,10 +41,10 @@ const Player = () => {
 
     // Reset to first song when new songs are fetched (mood change)
     useEffect(() => {
-        if (song && song.length > 0) {
+        if (allSongs && allSongs.length > 0) {
             setCurrentIndex(0);
         }
-    }, [song]);
+    }, [song, usersong]);
 
     // Sync volume
     useEffect(() => {
@@ -55,14 +64,15 @@ const Player = () => {
         }
     };
 
+
     const playNext = () => {
-        if (!song || song.length === 0) return;
-        setCurrentIndex((prev) => (prev < song.length - 1 ? prev + 1 : 0));
+        if (!allSongs || allSongs.length === 0) return;
+        setCurrentIndex((prev) => (prev < allSongs.length - 1 ? prev + 1 : 0));
     };
 
     const playPrev = () => {
-        if (!song || song.length === 0) return;
-        setCurrentIndex((prev) => (prev > 0 ? prev - 1 : song.length - 1));
+        if (!allSongs || allSongs.length === 0) return;
+        setCurrentIndex((prev) => (prev > 0 ? prev - 1 : allSongs.length - 1));
     };
 
     const handleTimeUpdate = () => {
@@ -99,33 +109,39 @@ const Player = () => {
             {/* Hidden audio */}
             <audio
                 ref={audioRef}
-                src={currentSong?.song_url}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={playNext}
+            autoPlay
+            src={currentSong?.song_url}
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={playNext}
             />
 
             {/* Header */}
-            <header className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
-                <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+            <header className="flex items-center  justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
+                <h1 className="text-2xl font-extrabold cursor-pointer text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                     🎵 Moodify
                 </h1>
-                {mood && (
-                    <span className="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium text-cyan-300 backdrop-blur-md">
-                        {moodEmoji[mood] || "🎵"} {mood}
-                    </span>
-                )}
+
+                <span
+                    onClick={() => {
+                        navigate("/upload")
+                    }}
+                    className="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium text-cyan-300 backdrop-blur-md  cursor-pointer">
+                    {/* {moodEmoji[mood] || "🎵"} {mood} */}
+                    Upload your playlist
+                </span>
+
             </header>
 
             {/* Main Content — 3 column grid */}
-            <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 overflow-hidden min-h-0">
+            <div className="flex-1 min-h-screen grid grid-cols-1 lg:grid-cols-12  gap-4 p-4 overflow-auto md:overflow-hidden md:min-h-0">
 
                 {/* LEFT — Camera & Detect (always visible) */}
-                <div className="lg:col-span-3 backdrop-blur-lg bg-white/5 rounded-2xl h-fitcontent border border-white/10 p-4 flex flex-col overflow-hidden">
+                <div className="lg:col-span-3  backdrop-blur-lg bg-white/5 rounded-2xl  md:h-fitcontent border border-white/10 p-4 flex flex-col md:overflow-hidden">
                     <Moodify />
                 </div>
 
                 {/* CENTER — Now Playing */}
-                <div className="lg:col-span-5 backdrop-blur-lg bg-white/5 rounded-2xl border border-white/10 p-5 flex flex-col items-center justify-center overflow-hidden">
+                <div className="lg:col-span-5 backdrop-blur-lg bg-white/5 rounded-2xl border border-white/10 p-5 flex flex-col items-center justify-center md:overflow-hidden relative">
                     {currentSong ? (
                         <>
                             {/* Album Art */}
@@ -232,7 +248,7 @@ const Player = () => {
                                         background: `linear-gradient(to right, #a78bfa ${volume * 100
                                             }%, rgba(255,255,255,0.1) ${volume * 100}%)`,
                                     }}
-                                />
+                                    />
                             </div>
                         </>
                     ) : (
@@ -244,57 +260,123 @@ const Player = () => {
                             </p>
                         </div>
                     )}
+                    <p className=" hidden md:block absolute left-[38%] text-[12px] bottom-1 text-white ">Made with ❤ By Fardeen   </p>
                 </div>
 
                 {/* RIGHT — Song Queue */}
-                <div className="lg:col-span-4 backdrop-blur-lg bg-white/5 rounded-2xl border border-white/10 flex flex-col overflow-hidden">
-                    <div className="px-5 py-3 border-b border-white/10 flex-shrink-0">
-                        <h3 className="text-white font-semibold">
-                            Queue {song && song.length > 0 ? `· ${song.length} songs` : ""}
+                <div className="lg:col-span-4 backdrop-blur-lg bg-white/5 rounded-2xl border border-white/10 flex flex-col gap-3 md:overflow-hidden ">
+
+
+
+
+
+                    <div className="px-5 py-3 border-b border-white/10  flex-shrink-0">
+                        <h3 className="text-white font-semibold pointer-events-none">
+                            Queue {allSongs.length > 0 ? `· ${allSongs.length} songs` : ""}
                         </h3>
                     </div>
-                    <div className="flex-1 overflow-y-auto divide-y divide-white/5">
+                    <div className=" overflow-y-auto overflow-x-hidden divide-y md:pb-10 pb-40 divide-white/5">
+                        {/* General Mood Playlist */}
                         {song && song.length > 0 ? (
-                            song.map((s, i) => (
-                                <button
-                                    key={s._id || i}
-                                    onClick={() => setCurrentIndex(i)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all hover:bg-white/5 text-left ${i === currentIndex
+                            <>
+                                <div className="px-4 py-2 bg-white/5 sticky top-0 backdrop-blur-md z-10">
+                                    <p className="text-xs font-semibold uppercase pointer-events-none tracking-wider text-cyan-400">🎧 Mood Playlist · {song.length}</p>
+                                </div>
+                                {song.map((s, i) => (
+                                    <button
+                                        key={s._id || `general-${i}`}
+                                        onClick={() => setCurrentIndex(i)}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 transition-all hover:bg-white/5 text-left ${i === currentIndex
                                             ? "bg-white/10 border-l-4 border-cyan-400"
                                             : "border-l-4 border-transparent"
-                                        }`}
-                                >
-                                    <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-md">
-                                        <img
-                                            src={s.image_url}
-                                            alt={s.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        {i === currentIndex && isPlaying && (
-                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                                <div className="flex items-end gap-[2px]">
-                                                    <span className="w-[3px] h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0s" }} />
-                                                    <span className="w-[3px] h-3 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0.15s" }} />
-                                                    <span className="w-[3px] h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }} />
+                                            }`}
+                                    >
+                                        <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-md">
+                                            <img
+                                                src={s.image_url}
+                                                alt={s.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            {i === currentIndex && isPlaying && (
+                                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                                    <div className="flex items-end gap-[2px]">
+                                                        <span className="w-[3px] h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0s" }} />
+                                                        <span className="w-[3px] h-3 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0.15s" }} />
+                                                        <span className="w-[3px] h-2 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className={`text-sm font-medium truncate ${i === currentIndex ? "text-cyan-300" : "text-white"}`}>
-                                            {s.title}
-                                        </p>
-                                        <p className="text-xs text-gray-500 truncate">{s.artist}</p>
-                                    </div>
-                                    <span className="text-[10px] text-gray-600 flex-shrink-0 hidden sm:block">
-                                        {s.album}
-                                    </span>
-                                </button>
-                            ))
+                                            )}
+                                        </div>
+                                        <div className="flex-1 md:min-w-[80%] min-w-0">
+                                            <p className={`text-sm font-medium truncate ${i === currentIndex ? "text-cyan-300" : "text-white"}`}>
+                                                {s.title }
+                                            </p>
+                                            <p className="text-xs text-gray-500 truncate">{s.artist}</p>
+                                        </div>
+                                        <span className="text-[10px] text-gray-600 flex-shrink-0 hidden sm:block">
+                                            {s.album }
+                                        </span>
+                                    </button>
+                                ))}
+                            </>
                         ) : (
-                            <div className="flex items-center justify-center h-full text-gray-500 text-sm p-6">
+                            <div className="flex items-center justify-center text-gray-500 text-sm p-6">
                                 Detect your mood to load songs
                             </div>
+                        )}
+
+                        {/* User Personalised Playlist — only shown if usersong has data */}
+                        {Array.isArray(usersong) && usersong.length > 0 && (
+                            <>
+                                <div className="px-4 py-2 bg-purple-500/10 sticky top-0 backdrop-blur-md z-10 border-t border-white/10">
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-purple-400">🎵 Your Playlist · {usersong.length}</p>
+                                </div>
+                                {usersong.map((s, i) => {
+                                    const globalIndex = generalCount + i;
+                                    return (
+                                        <button
+                                            key={s._id || `user-${i}`}
+                                            onClick={() => setCurrentIndex(globalIndex)}
+                                            className={`w-full flex items-center gap-3 px-4 py-3 transition-all hover:bg-white/5 text-left ${globalIndex === currentIndex
+                                                ? "bg-purple-500/10 border-l-4 border-purple-400"
+                                                : "border-l-4 border-transparent"
+                                                }`}
+                                        >
+                                            <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-md">
+                                                {s.image_url ? (
+                                                    <img
+                                                        src={s.image_url}
+                                                        alt={s.title}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
+                                                        🎵
+                                                    </div>
+                                                )}
+                                                {globalIndex === currentIndex && isPlaying && (
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                                        <div className="flex items-end gap-[2px]">
+                                                            <span className="w-[3px] h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: "0s" }} />
+                                                            <span className="w-[3px] h-3 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: "0.15s" }} />
+                                                            <span className="w-[3px] h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }} />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1 md:min-w-[80%] min-w-0">
+                                                <p className={`text-sm font-medium truncate ${globalIndex === currentIndex ? "text-purple-300" : "text-white"}`}>
+                                                    {s.title || s.name || "Untitled"}
+                                                </p>
+                                                <p className="text-xs text-gray-500 truncate">{s.artist || "You"}</p>
+                                            </div>
+                                            <span className="text-[10px] text-gray-600 flex-shrink-0 hidden sm:block">
+                                                {s.album || ""}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </>
                         )}
                     </div>
                 </div>
