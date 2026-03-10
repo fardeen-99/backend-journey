@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api=axios.create({
-    baseURL:"https://food-recipe-web.onrender.com/api/recipe",
+    baseURL:"/api/recipe",
     withCredentials:true
 })
 

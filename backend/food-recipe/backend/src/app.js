@@ -10,10 +10,7 @@ const cors=require("cors")
 const app=express()
 app.use(cookieparser())
 app.use(express.json())
-app.use(cors({
-    origin:"https://food-recipe-web.onrender.com",
-    credentials:true
-}))
+app.use(cors())
 app.use(express.static("public"))
 app.use("/api/auth",authRouter)
 app.use("/api/recipe",recipeRouter)
