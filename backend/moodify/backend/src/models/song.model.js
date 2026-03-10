@@ -21,11 +21,15 @@ const SongSchema=new mongoose.Schema({
     mood:{
         type:String,
        default:"neutral",
-       enum:["happy","sad","surprised","neutral"]
+       enum:["happy","sad","surprised","neutral","defaulter"]
         },
     image_url:{
         type:String,
         required:true
+    },
+    uploadedBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
     }
 
 },{timestamps:true})

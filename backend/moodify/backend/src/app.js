@@ -7,19 +7,21 @@ const cors=require("cors")
 const songRoute=require("./routes/song.routes")
 
 const app=express()
-app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
-}))
+app.use(cors())
 
 app.use(cookie())
 app.use(express.json())
 
+app.use(express.static("public"))
 
 app.use("/api/auth",authRoute)
 app.use("/api/song",songRoute)
 
 
+const path=require("path")
 
+app.get("*Name",(req,res)=>{
+    res.sendFile(path(__dirname,"..","/public/index.html"))
+})
 
 module.exports=app
