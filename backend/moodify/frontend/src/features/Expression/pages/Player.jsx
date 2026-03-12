@@ -18,7 +18,7 @@ const Player = () => {
 useEffect(() => {
   if (song.length === 0) {
     handlegetsong("defaulter");
-  }
+  } 
 }, [song]);
 
     const safeSong = Array.isArray(song) ? song : [];
