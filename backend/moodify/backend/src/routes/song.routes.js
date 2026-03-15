@@ -73,7 +73,7 @@ const [result,imageurl]=await Promise.all(arr)
     mood:req.query.mood,
     image_url:imageurl?imageurl.url:"",
     song_url:result.url,
-    uploadedBy:req.user.id
+    uploadedBy:null
    })
     
     res.status(200).json({

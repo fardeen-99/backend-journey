@@ -26,3 +26,14 @@ export const validate=[
     .withMessage("Password must be at least 6 characters"),
     handleValidationErrors
 ]
+
+export const validateLogin=[
+    body("email").notEmpty()
+    .trim()
+    .isEmail()
+    .withMessage("Email is required"),
+    body("password").notEmpty()
+    .trim()
+    .withMessage("Password is required"),
+    handleValidationErrors
+]
