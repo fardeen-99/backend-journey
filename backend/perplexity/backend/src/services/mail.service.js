@@ -25,5 +25,5 @@ const mailOptions={
 }
 const result=await transporter.sendMail(mailOptions)
 console.log("mail sent successfully",result)
-
+return "mail sent successfully to: "+to 
 }

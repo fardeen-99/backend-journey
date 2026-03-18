@@ -28,7 +28,7 @@ await handleSendMail({
     html:`
     <h1>Welcome ${username}</h1>
     <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
-    <a href="http://localhost:5000/api/auth/mail-verify/${email}">Click here to verify your email</a>
+    <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
     <p>Regards,</p>
     <p>Khanplexity Team</p>
     `,
@@ -56,7 +56,7 @@ if(user.verified){
 const file=`
 <h1>User already verified</h1>
 <p>You can login to your account</p>
-<a href="http://localhost:5000/api/auth/login">Click here to login</a>
+<a href="http://localhost:3000/api/auth/login">Click here to login</a>
 <p>Regards,</p>
 <p>Khanplexity Team</p>
 `
