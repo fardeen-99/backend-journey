@@ -6,9 +6,9 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const authRouter = Router();
 
-authRouter.post("/register",validate,register)
+authRouter.post("/register",register)
 authRouter.get("/mail-verify/:email",mailVerify)
-authRouter.post("/login",validateLogin,authMiddleware,login)
+authRouter.post("/login",login)
 authRouter.post("/resend-mail",resendMail)
 authRouter.get("getme",authMiddleware,Getme)
 

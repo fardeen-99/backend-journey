@@ -1,4 +1,6 @@
 import { handleSendMail } from "../services/mail.service.js";
+
+import jwt from "jsonwebtoken";
 import usermodel from "../models/user.model.js";
 export const register = async (req, res) => {
 
@@ -19,22 +21,38 @@ if(user){
 const newUser = await usermodel.create({
     username,
     email,
-    password
+    password,
+    verified:true,
 })
 
-await handleSendMail({
-    to:email,
-    subject:"Welcome to our platform Khanplexity",
-    html:`
-    <h1>Welcome ${username}</h1>
-    <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
-    <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
-    <p>Regards,</p>
-    <p>Khanplexity Team</p>
-    `,
-})
+    const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:"7d"})
 
-res.send("Registration successful")
+res.cookie("token",token)
+
+// await handleSendMail({
+//     to:email,
+//     subject:"Welcome to our platform Khanplexity",
+//     html:`
+//     <h1>Welcome ${username}</h1>
+//     <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
+//     <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
+//     <p>Regards,</p>
+//     <p>Khanplexity Team</p>
+//     `,
+// })
+
+// res.send("Registration successful")
+
+
+res.status(200).json({
+    message:"Registration successful",
+    user:{
+        username:newUser.username,
+        email:newUser.email,
+        verified:newUser.verified,
+    },
+    success:true,
+})
 }
 
 
@@ -188,6 +206,9 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"7d"})
+
+res.cookie("token",token)
+
     res.json({
         message:"Login successful",
         success:true,
