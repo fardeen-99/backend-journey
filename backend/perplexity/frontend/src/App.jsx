@@ -7,25 +7,25 @@ import Dashboard from './features/chats/pages/Dashboard'
 import Protected from './features/auth/components/Protected'
 function App() {
 
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <Login />
-  },
-  {
-    path: "/register",
-    element: <Register />
-  },
-  {
-    path: "/",
-    element:( <Protected>
-      <Dashboard />
-      </Protected>) 
-  }
-])
+  const router = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "/register",
+      element: <Register />
+    },
+    {
+      path: "/",
+      element: (<Protected>
+        <Dashboard />
+      </Protected>)
+    }
+  ])
 
   return (
-<RouterProvider router={router} />
+    <RouterProvider router={router} />
   )
 }
 

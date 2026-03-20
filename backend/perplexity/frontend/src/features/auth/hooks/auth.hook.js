@@ -1,15 +1,16 @@
 import { useContext } from "react";
 import { AuthContext } from "../auth.context";
-import { login, register } from "../services/auth.services";
+import { login, logout, register } from "../services/auth.services";
 
 const useAuth = () => {
-    const { user, loading, setLoading, setUser } = useContext(AuthContext);
+    const { user, loading, setLoading, setUser, fetchuser } = useContext(AuthContext);
 
 
     const handleregister = async (email, password, username) => {
       
         try {
             const response = await register(email, password, username);
+            console.log("hi");
             setUser(response.user);
             setLoading(false);
         } catch (error) {
@@ -32,8 +33,18 @@ const useAuth = () => {
         }
     }
 
+    const handlelogout = async () => {
+        try {
+            await logout();
+            setUser(null);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
-    return { user, loading, setLoading, setUser, handleregister, handlelogin }
+    return { user, loading, setLoading, setUser, fetchuser, handleregister, handlelogin, handlelogout }
 }
 
 export default useAuth

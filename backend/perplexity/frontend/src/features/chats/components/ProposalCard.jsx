@@ -1,0 +1,126 @@
+import { motion } from "framer-motion";
+import { MapPin, DollarSign, Lightbulb, Building2 } from "lucide-react";
+
+const ProposalCard = ({ proposal }) => {
+    if (!proposal) return null;
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 40, scale: 0.96 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { duration: 0.5, ease: "easeOut" },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, x: -20 },
+        visible: (i) => ({
+            opacity: 1,
+            x: 0,
+            transition: { delay: i * 0.1 + 0.3, duration: 0.4, ease: "easeOut" },
+        }),
+    };
+
+    const fields = [
+        {
+            icon: <MapPin size={18} className="text-violet-400" />,
+            label: "Location",
+            value: proposal.location,
+            color: "violet",
+        },
+        {
+            icon: <DollarSign size={18} className="text-emerald-400" />,
+            label: "Estimated Cost",
+            value: proposal.estimatedCost,
+            color: "emerald",
+        },
+        {
+            icon: <Lightbulb size={18} className="text-amber-400" />,
+            label: "Why It Fits",
+            value: proposal.whyItFits,
+            color: "amber",
+        },
+    ];
+
+    return (
+        <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            className="w-full max-w-2xl mx-auto"
+        >
+            {/* Glowing border container */}
+            <div className="relative rounded-2xl p-px bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-600 shadow-[0_0_40px_rgba(139,92,246,0.3)]">
+                <div className="rounded-2xl bg-[#0d0d14] p-6 md:p-8">
+                    {/* Header */}
+                    <motion.div
+                        custom={0}
+                        variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="flex items-start gap-4 mb-6"
+                    >
+                        <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
+                            <Building2 size={22} className="text-white" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold text-violet-400 uppercase tracking-[0.15em] mb-1">
+                                AI Recommended Venue
+                            </p>
+                            <h2 className="text-xl md:text-2xl font-bold text-white leading-tight">
+                                {proposal.venueName}
+                            </h2>
+                        </div>
+                    </motion.div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-gradient-to-r from-violet-500/40 via-purple-500/20 to-transparent mb-6" />
+
+                    {/* Fields */}
+                    <div className="space-y-5">
+                        {fields.map((field, i) => (
+                            <motion.div
+                                key={field.label}
+                                custom={i + 1}
+                                variants={itemVariants}
+                                initial="hidden"
+                                animate="visible"
+                                className="flex items-start gap-3"
+                            >
+                                <div className={`flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-${field.color}-500/10 border border-${field.color}-500/20 flex items-center justify-center`}>
+                                    {field.icon}
+                                </div>
+                                <div>
+                                    <p className="text-xs text-gray-500 font-medium mb-0.5">
+                                        {field.label}
+                                    </p>
+                                    <p className="text-sm md:text-[15px] text-gray-200 leading-relaxed">
+                                        {field.value}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Footer badge */}
+                    <motion.div
+                        custom={4}
+                        variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2"
+                    >
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-xs text-gray-500">
+                            Generated by AI · Powered by Mistral
+                        </span>
+                    </motion.div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+export default ProposalCard;

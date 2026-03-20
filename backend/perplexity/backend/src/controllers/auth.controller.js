@@ -4,94 +4,94 @@ import jwt from "jsonwebtoken";
 import usermodel from "../models/user.model.js";
 export const register = async (req, res) => {
 
-const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
 
-const user=await usermodel.findOne({
-    $or:[{email},{username}]
-})
-
-if(user){
-    return res.status(400).json({
-        message:"User already exists",
-        success:false,
-        err:"User already exists"
+    const user = await usermodel.findOne({
+        $or: [{ email }, { username }]
     })
-}
 
-const newUser = await usermodel.create({
-    username,
-    email,
-    password,
-    verified:true,
-})
+    if (user) {
+        return res.status(400).json({
+            message: "User already exists",
+            success: false,
+            err: "User already exists"
+        })
+    }
 
-    const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:"7d"})
+    const newUser = await usermodel.create({
+        username,
+        email,
+        password,
+        verified: true,
+    })
 
-res.cookie("token",token)
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
 
-// await handleSendMail({
-//     to:email,
-//     subject:"Welcome to our platform Khanplexity",
-//     html:`
-//     <h1>Welcome ${username}</h1>
-//     <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
-//     <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
-//     <p>Regards,</p>
-//     <p>Khanplexity Team</p>
-//     `,
-// })
+    res.cookie("token", token)
 
-// res.send("Registration successful")
+    // await handleSendMail({
+    //     to:email,
+    //     subject:"Welcome to our platform Khanplexity",
+    //     html:`
+    //     <h1>Welcome ${username}</h1>
+    //     <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
+    //     <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
+    //     <p>Regards,</p>
+    //     <p>Khanplexity Team</p>
+    //     `,
+    // })
+
+    // res.send("Registration successful")
 
 
-res.status(200).json({
-    message:"Registration successful",
-    user:{
-        username:newUser.username,
-        email:newUser.email,
-        verified:newUser.verified,
-    },
-    success:true,
-})
+    res.status(200).json({
+        message: "Registration successful",
+        user: {
+            username: newUser.username,
+            email: newUser.email,
+            verified: newUser.verified,
+        },
+        success: true,
+    })
 }
 
 
 export const mailVerify = async (req, res) => {
-    const {email} = req.params;
+    const { email } = req.params;
 
-const user=await usermodel.findOne({email})
+    const user = await usermodel.findOne({ email })
 
-if(!user){
-    return res.status(400).json({
-        message:"invalid credentials",
-        success:false,
-        err:"User not found"
-    })
-}
+    if (!user) {
+        return res.status(400).json({
+            message: "invalid credentials",
+            success: false,
+            err: "User not found"
+        })
+    }
 
-if(user.verified){
+    if (user.verified) {
 
-const file=`
+        const file = `
 <h1>User already verified</h1>
 <p>You can login to your account</p>
 <a href="http://localhost:3000/api/auth/login">Click here to login</a>
 <p>Regards,</p>
 <p>Khanplexity Team</p>
 `
-res.set("Content-Type", "text/html");
-res.send(file);
+        res.set("Content-Type", "text/html");
+        res.send(file);
 
-    return res.status(400).json({
-        message:"User already verified",
-        success:false,
-        err:"User already verified"
-    })
-}
+        return res.status(400).json({
+            message: "User already verified",
+            success: false,
+            err: "User already verified"
+        })
+    }
 
-user.verified=true;
-await user.save();
+    user.verified = true;
+    await user.save();
 
-const file = `
+    const file = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,98 +169,107 @@ Login to your account
 </body>
 </html>
 `
-res.set("Content-Type", "text/html");
-res.send(file);
-    
+    res.set("Content-Type", "text/html");
+    res.send(file);
+
 }
 
 export const login = async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
+console.log(email,password)
+    const user = await usermodel.findOne({email})
 
-    const user=await usermodel.findOne({email})
-
-    if(!user){
+    if (!user) {
         return res.status(400).json({
-            message:"invalid credentials",
-            success:false,
-            err:"User not found"
+            message: "invalid credentials",
+            success: false,
+            err: "User not found"
         })
     }
 
-    if(!user.verified){
+    if (!user.verified) {
         return res.status(400).json({
-            message:"User not verified",
-            success:false,
-            err:"User not verified"
+            message: "User not verified",
+            success: false,
+            err: "User not verified"
         })
     }
 
     const isMatch = await user.comparePassword(password)
 
-    if(!isMatch){
+    if (!isMatch) {
         return res.status(400).json({
-            message:"invalid credentials",
-            success:false,
-            err:"Invalid credentials"
+            message: "invalid credentials",
+            success: false,
+            err: "Invalid credentials"
         })
     }
 
-    const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"7d"})
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
 
-res.cookie("token",token)
+    res.cookie("token", token)
 
     res.json({
-        message:"Login successful",
-        success:true,
-        user:{
-            username:user.username,
-            email:user.email,
-            verified:user.verified,
+        message: "Login successful",
+        success: true,
+        user: {
+            username: user.username,
+            email: user.email,
+            verified: user.verified,
         }
     })
 }
 
+export const logout = async (req, res) => {
+    res.clearCookie("token");
+
+    res.json({
+        message: "Logout successful",
+        success: true,
+    });
+}
+
 export const Getme = async (req, res) => {
 
-const user=await usermodel.findById(req.user.id).select("-password")
+    const user = await usermodel.findById(req.user.id).select("-password")
 
-if(!user){
-    return res.status(400).json({
-        message:"User not found",
-        success:false,
-        err:"User not found"
-    })
-}
-
-res.json({
-    message:"User found",
-    success:true,
-    user
-})
-
-}
-
-export const resendMail=async(req,res)=>{
-    const {email}=req.body
-    const user=await usermodel.findOne({email})
-    if(!user){
+    if (!user) {
         return res.status(400).json({
-            message:"User not found",
-            success:false,
-            err:"User not found"
+            message: "User not found",
+            success: false,
+            err: "User not found"
         })
     }
-    if(user.verified){
+
+    res.json({
+        message: "User found",
+        success: true,
+        user
+    })
+
+}
+
+export const resendMail = async (req, res) => {
+    const { email } = req.body
+    const user = await usermodel.findOne({ email })
+    if (!user) {
         return res.status(400).json({
-            message:"User already verified",
-            success:false,
-            err:"User already verified"
+            message: "User not found",
+            success: false,
+            err: "User not found"
+        })
+    }
+    if (user.verified) {
+        return res.status(400).json({
+            message: "User already verified",
+            success: false,
+            err: "User already verified"
         })
     }
     await handleSendMail({
-        to:email,
-        subject:"Welcome to our platform Khanplexity",
-        html:`
+        to: email,
+        subject: "Welcome to our platform Khanplexity",
+        html: `
         <h1>Welcome ${user.username}</h1>
         <p>Thank you for registering on our platform <strong>Khanplexity</strong>. You can now login to your account.</p>
         <a href="http://localhost:3000/api/auth/mail-verify/${email}">Click here to verify your email</a>
@@ -269,8 +278,8 @@ export const resendMail=async(req,res)=>{
         `,
     })
     res.json({
-        message:"Mail sent successfully",
-        success:true,
+        message: "Mail sent successfully",
+        success: true,
     })
 
 }

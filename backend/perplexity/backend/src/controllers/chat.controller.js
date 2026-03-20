@@ -81,10 +81,10 @@ export async function getMessages(req, res) {
 }
 
 export async function deleteChat(req, res) {
-    const { chatId } = req.params;
+    const id = req.params.id;
 
     const chat = await Chatmodel.findOne({
-        _id: chatId,
+        _id: id,
         user: req.user.id
     })
 
@@ -95,11 +95,11 @@ export async function deleteChat(req, res) {
     }
 
     await Chatmodel.deleteOne({
-        _id: chatId,
+        _id: id,
         user: req.user.id
     })
     await messagemodel.deleteMany({
-        chat: chatId
+        chat: id
     })
 
     res.status(200).json({

@@ -1,66 +1,25 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #060e20;
-  --color-surface: #060e20;
-  --color-surface-bright: #1f2b49;
-  --color-surface-dim: #060e20;
-  --color-surface-variant: #192540;
-  --color-surface-container-lowest: #000000;
-  --color-surface-container-low: #091328;
-  --color-surface-container: #0f1930;
-  --color-surface-container-high: #141f38;
-  --color-surface-container-highest: #192540;
-  
-  --color-primary: #a3a6ff;
-  --color-primary-dim: #6063ee;
-  --color-primary-container: #9396ff;
-  
-  --color-secondary: #2db7f2;
-  --color-secondary-dim: #05a9e3;
-  --color-secondary-container: #00668a;
-  
-  --color-tertiary: #c180ff;
-  --color-tertiary-dim: #9c48ea;
-  --color-tertiary-container: #af5cfe;
-  
-  --color-on-surface: #dee5ff;
-  --color-on-surface-variant: #a3aac4;
-  --color-on-background: #dee5ff;
-  --color-on-primary: #0f00a4;
-  --color-on-primary-container: #0a0081;
-  --color-outline: #6d758c;
-  --color-outline-variant: #40485d;
-
-  --font-headline: "Manrope", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-label: "Inter", sans-serif;
-  
-  --radius-default: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
 }
 
-@layer utilities {
-  .glass-card {
-    background: rgba(25, 37, 64, 0.6);
-    backdrop-filter: blur(24px);
-    position: relative;
-    border: 1px solid rgba(163, 166, 255, 0.15);
-  }
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
-  .grid-pattern {
-    background-image: radial-gradient(rgba(163, 166, 255, 0.1) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  .floating-label-group:focus-within label,
-  .floating-label-group input:not(:placeholder-shown) + label {
-    transform: translateY(-1.5rem) scale(0.85);
-    color: #2db7f2;
-  }
+*::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 body {
-  @apply bg-background font-body text-on-surface;
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
 }
